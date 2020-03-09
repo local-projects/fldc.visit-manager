@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FLDCVisitManagerBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace FLDCVisitManager.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class VisitManagerController : ControllerBase
     {
 
@@ -21,6 +22,12 @@ namespace FLDCVisitManager.Controllers
 
         [HttpGet]
         public void GetCollectionPoints()
+        {
+
+        }
+
+        [Route("hello")]
+        public void GetCollectionPointTrigger(CPRequestParams req)
         {
 
         }
