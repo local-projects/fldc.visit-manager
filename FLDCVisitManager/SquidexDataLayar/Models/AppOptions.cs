@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SquidexDataLayer.Models
 {
-    public class SquidexAppOptions
+    public class AppOptions
     {
         public string ClientId { get; set; }
 
