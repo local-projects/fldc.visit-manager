@@ -18,9 +18,14 @@ namespace FLDCVisitManager
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var dom = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+/*                    .AddJsonFile("appsettings.json", optional: true)*/
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
+                                .Build(); ;
+            Configuration = dom;
         }
 
         public IConfiguration Configuration { get; }

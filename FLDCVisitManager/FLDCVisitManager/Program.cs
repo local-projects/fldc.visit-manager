@@ -21,6 +21,7 @@ namespace FLDCVisitManager
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            ;
     }
 }

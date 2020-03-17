@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CMSDataLayer;
 using FLDCVisitManagerBackend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -24,11 +25,12 @@ namespace FLDCVisitManager.Controllers
         private static ICMSDataHelper _cmsDataHelper;
         private static AppOptionsConfiguration _cmsOptions;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions)
+        public VisitManagerController(ILogger<VisitManagerController> logger, ICMSDataHelper cmsDataHelper, IConfiguration config ,IOptions<AppOptionsConfiguration> cmsOptions)
         {
             _logger = logger;
             _cmsDataHelper = cmsDataHelper;
-            _cmsOptions = cmsOptions.Value;
+            var configuration = config.GetSection("CMSOptions").GetSection("Url").Value;//config.GetChildren(); 
+            //_cmsOptions = cmsOptions.Ge;
         }
 
         [HttpGet]
