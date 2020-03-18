@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Squidex.ClientLibrary;
 
 namespace CMSDataLayer.Models
@@ -16,7 +13,7 @@ namespace CMSDataLayer.Models
     public partial class LedColorsSeqData
     {
         [JsonProperty("ColorSeq")]
-        public ColorSeq ColorSeq { get; set; }
+        public RSeq ColorSeq { get; set; }
 
         [JsonProperty("ColorSeqBrightness")]
         public ColorSeqBrightness ColorSeqBrightness { get; set; }
@@ -28,10 +25,10 @@ namespace CMSDataLayer.Models
         public Name Name { get; set; }
 
         [JsonProperty("TimerSeq")]
-        public TimerSeq TimerSeq { get; set; }
+        public RSeq TimerSeq { get; set; }
     }
 
-    public partial class ColorSeq
+    public partial class RSeq
     {
         [JsonProperty("iv")]
         public List<ColorSeqIv> Iv { get; set; }
@@ -68,17 +65,5 @@ namespace CMSDataLayer.Models
     {
         [JsonProperty("iv")]
         public string Iv { get; set; }
-    }
-
-    public partial class TimerSeq
-    {
-        [JsonProperty("iv")]
-        public List<TimerSeqIv> Iv { get; set; }
-    }
-
-    public partial class TimerSeqIv
-    {
-        [JsonProperty("TimerForEachColor")]
-        public long TimerForEachColor { get; set; }
     }
 }

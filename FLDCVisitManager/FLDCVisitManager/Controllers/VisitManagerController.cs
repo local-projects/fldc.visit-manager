@@ -38,9 +38,9 @@ namespace FLDCVisitManager.Controllers
         }
 
         [HttpGet]
-        public void GetCollectionPoints()
+        public async void GetCollectionPoints()
         {
-
+            var result = await _cmsDataHelper.GetLedColors();
         }
 
         [Route("hello")]

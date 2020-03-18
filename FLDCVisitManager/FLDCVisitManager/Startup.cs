@@ -23,7 +23,7 @@ namespace FLDCVisitManager
             var dom = new ConfigurationBuilder()
                     .SetBasePath(env.ContentRootPath)
                     .AddJsonFile("appsettings.json", optional: true)
-                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                     .Build(); ;
             Configuration = dom;
         }

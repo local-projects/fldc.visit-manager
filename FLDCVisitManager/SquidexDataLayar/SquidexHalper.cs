@@ -27,8 +27,16 @@ namespace CMSDataLayer
 
         public async Task<LedColorsSeq> GetLedColors()
         {
-            var colors = await ledColorsSeq.GetAsync();
-            return colors.Items.FirstOrDefault();
+            try
+            {
+                var colors = await ledColorsSeq.GetAllAsync();
+                return colors.Items.FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            return null;
         }
     }
 }
