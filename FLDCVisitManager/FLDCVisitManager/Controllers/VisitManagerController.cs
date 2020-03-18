@@ -41,6 +41,7 @@ namespace FLDCVisitManager.Controllers
         public async void GetCollectionPoints()
         {
             var result = await _cmsDataHelper.GetLedColors();
+            var mappedResult = Mapper.Map<LEDRequestParams>(result);
         }
 
         [Route("hello")]
