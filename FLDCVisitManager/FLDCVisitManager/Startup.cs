@@ -34,9 +34,8 @@ namespace FLDCVisitManager
         public void ConfigureServices(IServiceCollection services)
         {
             IConfigurationSection cmsSettings = Configuration.GetSection("CMSOptions");
-            var aaAsString = Configuration["Config:Dev:CMSOptions:Url"];
             services.Configure<AppOptionsConfiguration>(cmsSettings);
-            //services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ICMSDataHelper, SquidexHalper>();
             services.AddControllers();
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Squidex.ClientLibrary;
-using SquidexDataLayer.Models;
+using CMSDataLayer.Models;
 using System.Linq;
 using CMSDataLayer;
 

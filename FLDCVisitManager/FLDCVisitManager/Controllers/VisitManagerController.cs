@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CMSDataLayer;
+using CMSDataLayer.Models;
 using FLDCVisitManagerBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,13 +26,15 @@ namespace FLDCVisitManager.Controllers
         private static bool worked = true;
         private static ICMSDataHelper _cmsDataHelper;
         private static AppOptionsConfiguration _cmsOptions;
+        private readonly IMapper _mapper;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, ICMSDataHelper cmsDataHelper, IConfiguration config ,IOptions<AppOptionsConfiguration> cmsOptions)
+        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper,ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions)
         {
             _logger = logger;
             _cmsDataHelper = cmsDataHelper;
-            var configuration = config.GetSection("CMSOptions").GetSection("Url").Value;//config.GetChildren(); 
-            //_cmsOptions = cmsOptions.Ge;
+            _cmsOptions = cmsOptions.Value;
+            _mapper = mapper;
+            _cmsDataHelper.ConnectToCMS(_mapper.Map<AppOptions>(_cmsOptions));
         }
 
         [HttpGet]
@@ -51,8 +55,7 @@ namespace FLDCVisitManager.Controllers
             if (worked)
             {
                 worked = false;
-                //_cmsDataHelper.ConnectToCMS(_cmsOptions);
-                /*                byte[] byteArr = { 0xFF0000, 0x00FF00, 0x0000FF, 0x00 };*/
+                //byte[] byteArr = { 0xFF0000, 0x00FF00, 0x0000FF, 0x00 };
                 int[] test = { 0xFF0000, 0x00FF00, 0x0000FF, 0xEE82EE, 0xFF };
 
                 var cpIp = "http://192.168.1.185:8080/setLedColorSequence";

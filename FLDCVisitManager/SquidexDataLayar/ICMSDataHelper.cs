@@ -1,4 +1,4 @@
-﻿using SquidexDataLayer.Models;
+﻿using CMSDataLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

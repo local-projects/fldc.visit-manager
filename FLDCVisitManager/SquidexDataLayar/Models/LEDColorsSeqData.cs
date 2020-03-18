@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Squidex.ClientLibrary;
 
-namespace SquidexDataLayer.Models
+namespace CMSDataLayer.Models
 {
     public class LedColorsSeq : SquidexEntityBase<LedColorsSeqData>
     {

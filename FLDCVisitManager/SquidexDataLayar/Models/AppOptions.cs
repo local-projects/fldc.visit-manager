@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SquidexDataLayer.Models
+namespace CMSDataLayer.Models
 {
     public class AppOptions
     {
