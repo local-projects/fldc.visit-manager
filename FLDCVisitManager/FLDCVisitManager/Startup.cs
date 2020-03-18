@@ -22,9 +22,9 @@ namespace FLDCVisitManager
         {
             var dom = new ConfigurationBuilder()
                     .SetBasePath(env.ContentRootPath)
-/*                    .AddJsonFile("appsettings.json", optional: true)*/
+                    .AddJsonFile("appsettings.json", optional: true)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
-                                .Build(); ;
+                    .Build(); ;
             Configuration = dom;
         }
 
@@ -34,6 +34,7 @@ namespace FLDCVisitManager
         public void ConfigureServices(IServiceCollection services)
         {
             IConfigurationSection cmsSettings = Configuration.GetSection("CMSOptions");
+            var aaAsString = Configuration["Config:Dev:CMSOptions:Url"];
             services.Configure<AppOptionsConfiguration>(cmsSettings);
             //services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ICMSDataHelper, SquidexHalper>();
