@@ -10,8 +10,8 @@ namespace CMSDataLayer
 {
     public class SquidexHalper : ICMSDataHelper
     {
-        private static SquidexClient<LedColorsSeq, LedColorsSeqData> ledColorsSeq;
-
+        private static SquidexClient<LedColorsSeq, LedColorsSeqData> ledColorsSeqClient;
+        private static SquidexClient<CollectionPoint, CollectionPointData> collectionPointsData;
 
         public SquidexHalper()
         {
@@ -22,14 +22,22 @@ namespace CMSDataLayer
         {
             var clientManager = new SquidexClientManager(appOptions.Url, appOptions.AppName, appOptions.ClientId, appOptions.ClientSecret);
 
-            ledColorsSeq = clientManager.GetClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
+            ledColorsSeqClient = clientManager.GetClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
+            collectionPointsData = clientManager.GetClient<CollectionPoint, CollectionPointData>("collection-points");
+        }
+
+        public async Task<CollectionPoint> GetCollectionPointsById(int cpId)
+        {
+            var data = await collectionPointsData.GetAsync();//$"filter = contains(data/pointID/iv eq '{cpId}') eq");
+            //var refId = Guid.Parse("xxx...");
+            return data.Items.Where(d => d.Data.PointId.Iv == cpId).FirstOrDefault();
         }
 
         public async Task<LedColorsSeq> GetLedColors()
         {
             try
             {
-                var colors = await ledColorsSeq.GetAllAsync();
+                var colors = await ledColorsSeqClient.GetAllAsync();
                 return colors.Items.FirstOrDefault();
             }
             catch(Exception ex)

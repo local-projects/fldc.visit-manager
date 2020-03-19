@@ -42,6 +42,7 @@ namespace FLDCVisitManager.Controllers
         {
             var result = await _cmsDataHelper.GetLedColors();
             var mappedResult = Mapper.Map<LEDRequestParams>(result);
+            var cpIP = await _cmsDataHelper.GetCollectionPointsById(1);
         }
 
         [Route("hello")]

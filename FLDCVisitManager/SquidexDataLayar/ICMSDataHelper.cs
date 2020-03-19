@@ -9,7 +9,7 @@ namespace CMSDataLayer
     public interface ICMSDataHelper
     {
         Task<LedColorsSeq> GetLedColors();
-        //Task<LedColorsSeq> GetCollectionPointsById();
+        Task<CollectionPoint> GetCollectionPointsById(int cpId);
         void ConnectToCMS(AppOptions appOptions);
     }
 }
