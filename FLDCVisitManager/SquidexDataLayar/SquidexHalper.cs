@@ -28,17 +28,24 @@ namespace CMSDataLayer
 
         public async Task<CollectionPoint> GetCollectionPointsById(int cpId)
         {
-            var data = await collectionPointsData.GetAsync();//$"filter = contains(data/pointID/iv eq '{cpId}') eq");
-            //var refId = Guid.Parse("xxx...");
-            return data.Items.Where(d => d.Data.PointId.Iv == cpId).FirstOrDefault();
+            var query = new ODataQuery
+            {
+                Filter = $"data/pointID/iv eq {cpId}"
+            };
+
+            var data = await collectionPointsData.GetAsync(query);
+            var cpResult = data.Items.FirstOrDefault();
+            cpResult.Data.LedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
+            return data.Items.FirstOrDefault();
         }
 
-        public async Task<LedColorsSeq> GetLedColors()
+        public async Task<LedColorsSeq> GetLedColors(string seqId)
         {
             try
             {
-                var colors = await ledColorsSeqClient.GetAllAsync();
-                return colors.Items.FirstOrDefault();
+                var refId = Guid.Parse(seqId);
+                var colors = await ledColorsSeqClient.GetAsync(refId);
+                return colors;
             }
             catch(Exception ex)
             {
