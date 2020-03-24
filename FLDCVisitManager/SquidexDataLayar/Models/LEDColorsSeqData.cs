@@ -25,7 +25,7 @@ namespace CMSDataLayer.Models
         public Name Name { get; set; }
 
         [JsonProperty("TimerSeq")]
-        public RSeq TimerSeq { get; set; }
+        public TimerSeq TimerSeq { get; set; }
     }
 
     public partial class RSeq
@@ -65,5 +65,16 @@ namespace CMSDataLayer.Models
     {
         [JsonProperty("iv")]
         public string Iv { get; set; }
+    }
+    public partial class TimerSeq
+    {
+        [JsonProperty("iv")]
+        public List<TimerSeqIv> Iv { get; set; }
+    }
+
+    public partial class TimerSeqIv
+    {
+        [JsonProperty("TimerForEachColor")]
+        public long TimerForEachColor { get; set; }
     }
 }

@@ -32,7 +32,8 @@ namespace CMSDataLayer.Models
 
         [JsonProperty("ReturnAnimation")]
         public ReturnAnimation ReturnAnimation { get; set; }
-        public LedColorsSeq LedColorsSeq { get; set; }
+        public LedColorsSeq TriggerLedColorsSeq { get; set; }
+        public LedColorsSeq SleepLedColorsSeq { get; set; }
     }
 
     public partial class CpIp

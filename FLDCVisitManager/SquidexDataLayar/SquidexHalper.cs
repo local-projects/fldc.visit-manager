@@ -35,7 +35,10 @@ namespace CMSDataLayer
 
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
-            cpResult.Data.LedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
+            if(cpResult.Data.TriggerAnimation != null)
+                cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
+            if (cpResult.Data.SleepAnimation != null)
+                cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
             return data.Items.FirstOrDefault();
         }
 

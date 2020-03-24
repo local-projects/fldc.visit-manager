@@ -28,7 +28,7 @@ namespace FLDCVisitManager.Controllers
         private static AppOptionsConfiguration _cmsOptions;
         private readonly IMapper _mapper;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper,ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions)
+        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions)
         {
             _logger = logger;
             _cmsDataHelper = cmsDataHelper;
@@ -38,46 +38,30 @@ namespace FLDCVisitManager.Controllers
         }
 
         [HttpGet]
-        public async void GetCollectionPoints()
+        public async void GetCollectionPointDetails()//(CPLampIncomingRequest req)
         {
-            //var result = await _cmsDataHelper.GetLedColors();
-            //var mappedResult = Mapper.Map<LEDRequestParams>(result);
-            var cpIP = await _cmsDataHelper.GetCollectionPointsById(1);
+            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(1); //req.LampId
+            var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
+            SetLEDColors(cpRequest);
         }
 
         [Route("hello")]
-        public void GetCollectionPointTrigger(CPRequestParams req)
+        public void GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
-            if(worked)
-                SetLEDColors();
+            /*            if(worked)
+                            SetLEDColors();*/
         }
 
-        public async void SetLEDColors()
+        public async void SetLEDColors(CPRequestParams cpDetails)
         {
-            if (worked)
-            {
-                worked = false;
-                //byte[] byteArr = { 0xFF0000, 0x00FF00, 0x0000FF, 0x00 };
-                int[] test = { 0xFF0000, 0x00FF00, 0x0000FF, 0xEE82EE, 0xFF };
-
-                var cpIp = "http://192.168.1.185:8080/setLedColorSequence";
-                using var client = new HttpClient();
-                var serializerSettings = new JsonSerializerSettings();
-                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                var json = JsonConvert.SerializeObject(new LEDRequestParams()
-                {
-                    Pattern = test,
-                    Timer = new List<int>() { 500, 500, 500, 500, 300 },
-                    Cycles = 3,
-                    Run = true
-                }, serializerSettings);
-                //var json = JsonConvert.SerializeObject();
-
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var result = await client.PostAsync(cpIp, data);
-            }
-
+            //int[] test = { 0xFF0000, 0x00FF00, 0x0000FF, 0xEE82EE, 0xFF };
+            var cpUrl = new Uri(cpDetails.CpIp + "/setLedColorSequence");
+            using var client = new HttpClient();
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            var json = JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(cpUrl, data);
         }
     }
 }
