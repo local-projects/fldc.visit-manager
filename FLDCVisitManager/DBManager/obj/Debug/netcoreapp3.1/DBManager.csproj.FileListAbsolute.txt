@@ -1,8 +1,0 @@
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\bin\Debug\netcoreapp3.1\DBManager.deps.json
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\bin\Debug\netcoreapp3.1\DBManager.dll
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\obj\Debug\netcoreapp3.1\DBManager.csprojAssemblyReference.cache
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\obj\Debug\netcoreapp3.1\DBManager.AssemblyInfoInputs.cache
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\obj\Debug\netcoreapp3.1\DBManager.AssemblyInfo.cs
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\bin\Debug\netcoreapp3.1\DBManager.pdb
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\obj\Debug\netcoreapp3.1\DBManager.dll
-C:\dev\fldc.visit-manager\FLDCVisitManager\DBManager\obj\Debug\netcoreapp3.1\DBManager.pdb

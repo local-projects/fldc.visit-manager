@@ -31,7 +31,8 @@ namespace FLDCVisitManager.Controllers
         private readonly IMapper _mapper;
         private static IDBManager _dBManager;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager)
+        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, 
+            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DataBaseOptions> connectionString)
         {
             _logger = logger;
             _cmsDataHelper = cmsDataHelper;
@@ -39,16 +40,16 @@ namespace FLDCVisitManager.Controllers
             _mapper = mapper;
             _cmsDataHelper.ConnectToCMS(_mapper.Map<AppOptions>(_cmsOptions));
             _dBManager = dBManager;
+            _dBManager.SetDBConfiguration(connectionString.Value.DefaultConnection);
         }
 
         [Route("cpLamp")]
-        [HttpPost]
+        [HttpGet]
         public async void GetCollectionPointDetails()//(CPLampIncomingRequest req)
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-            //_dBManager.OpenConnection();
             _dBManager.UpdateCollectionPointLampInteraction(Mapper.Map<CPLampData>(req));
-            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(1); //req.LampId
+            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(req.Id); 
             var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
             SetLEDColors(cpRequest);
         }

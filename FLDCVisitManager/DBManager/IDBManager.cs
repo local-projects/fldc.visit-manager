@@ -6,7 +6,8 @@ namespace DBManager
 {
     public interface IDBManager
     {
-        SqlConnection OpenConnection(string connectionString);
+        void SetDBConfiguration(string connectionString);
+        SqlConnection OpenConnection();
         void UpdateCollectionPointLampInteraction(CPLampData data);
     }
 }

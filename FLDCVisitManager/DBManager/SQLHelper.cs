@@ -10,19 +10,31 @@ namespace DBManager
 {
     public class SQLHelper : IDBManager
     {
-        private static string connectionString { get; set; }
-        public SqlConnection OpenConnection(string connectionString)
+        private static string _connectionString { get; set; }
+        public SqlConnection OpenConnection()
         {
-            throw new NotImplementedException();
+            return new SqlConnection(_connectionString);
         }
 
         public void UpdateCollectionPointLampInteraction(CPLampData data)
         {
-            using (var conn = OpenConnection(connectionString))
+            try
             {
-                var items = conn.Query("stp_VisitorToCollectionPoint_Insert", new { data.CPId, data.LampId }, commandType: CommandType.StoredProcedure);
+                using (var conn = OpenConnection())
+                {
+                    var items = conn.Query("stp_VisitorToCollectionPoint_Insert", new { data.CPId, data.LampId }, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw (new Exception($"Error connecting to the DB, error message {ex.Message}"));
             }
 
+        }
+
+        public void SetDBConfiguration(string connectionString)
+        {
+            _connectionString = connectionString;
         }
     }
 }
