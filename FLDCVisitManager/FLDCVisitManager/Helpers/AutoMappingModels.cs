@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CMSDataLayer.Models;
+using DBManager.Models;
 using FLDCVisitManagerBackend.Models;
 using System;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace FLDCVisitManagerBackend.Helpers
                 .ForMember(dest => dest.SleepAnimation, src => src.MapFrom(s => s.Data.SleepLedColorsSeq))
                 /*                .ForMember(dest => dest.PointName, src => src.MapFrom(s => s.Data.PointName.Iv))*/
                 ;
+            CreateMap<CPLampIncomingRequest, CPLampData>().ForMember(dest => dest.CPId, src => src.MapFrom(s => s.Id));
         }
     }
 }

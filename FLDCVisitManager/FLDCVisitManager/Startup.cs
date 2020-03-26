@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using CMSDataLayer;
+using DBManager;
 
 namespace FLDCVisitManager
 {
@@ -35,8 +36,10 @@ namespace FLDCVisitManager
         {
             IConfigurationSection cmsSettings = Configuration.GetSection("CMSOptions");
             services.Configure<AppOptionsConfiguration>(cmsSettings);
+            //services.Configure<Connec>(cmsSettings);
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ICMSDataHelper, SquidexHalper>();
+            services.AddSingleton<ICMSDataHelper, SquidexHalper>();
+            services.AddScoped<IDBManager, SQLHelper>();
             services.AddControllers();
         }
 

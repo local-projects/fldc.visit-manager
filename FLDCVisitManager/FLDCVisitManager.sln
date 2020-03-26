@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLDCVisitManagerBackend", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSDataLayer", "SquidexDataLayar\CMSDataLayer.csproj", "{0A9C17F2-E1AD-47ED-BAA1-5ADE822BDD6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBManager", "DBManager\DBManager.csproj", "{8AAE5409-E2A2-4FA1-BDA5-978DB057440C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0A9C17F2-E1AD-47ED-BAA1-5ADE822BDD6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A9C17F2-E1AD-47ED-BAA1-5ADE822BDD6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9C17F2-E1AD-47ED-BAA1-5ADE822BDD6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AAE5409-E2A2-4FA1-BDA5-978DB057440C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AAE5409-E2A2-4FA1-BDA5-978DB057440C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AAE5409-E2A2-4FA1-BDA5-978DB057440C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AAE5409-E2A2-4FA1-BDA5-978DB057440C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMSDataLayer;
 using CMSDataLayer.Models;
+using DBManager;
+using DBManager.Models;
 using FLDCVisitManagerBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,19 +29,25 @@ namespace FLDCVisitManager.Controllers
         private static ICMSDataHelper _cmsDataHelper;
         private static AppOptionsConfiguration _cmsOptions;
         private readonly IMapper _mapper;
+        private static IDBManager _dBManager;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions)
+        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager)
         {
             _logger = logger;
             _cmsDataHelper = cmsDataHelper;
             _cmsOptions = cmsOptions.Value;
             _mapper = mapper;
             _cmsDataHelper.ConnectToCMS(_mapper.Map<AppOptions>(_cmsOptions));
+            _dBManager = dBManager;
         }
 
-        [HttpGet]
+        [Route("cpLamp")]
+        [HttpPost]
         public async void GetCollectionPointDetails()//(CPLampIncomingRequest req)
         {
+            var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
+            //_dBManager.OpenConnection();
+            _dBManager.UpdateCollectionPointLampInteraction(Mapper.Map<CPLampData>(req));
             var cpDetails = await _cmsDataHelper.GetCollectionPointsById(1); //req.LampId
             var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
             SetLEDColors(cpRequest);
