@@ -50,5 +50,10 @@ namespace DBManager
         {
             _connectionString = connectionString;
         }
+
+        public void ChargerDockerLampRecognized(CPLampData cPLampData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

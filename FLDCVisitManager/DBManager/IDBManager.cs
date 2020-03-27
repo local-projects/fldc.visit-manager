@@ -10,5 +10,6 @@ namespace DBManager
         SqlConnection OpenConnection();
         void UpdateCollectionPointLampInteraction(CPLampData data);
         void UpdateCollectionPoint(string iD, string fW);
+        void ChargerDockerLampRecognized(CPLampData cPLampData);
     }
 }

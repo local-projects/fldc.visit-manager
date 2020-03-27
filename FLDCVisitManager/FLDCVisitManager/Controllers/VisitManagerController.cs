@@ -54,6 +54,12 @@ namespace FLDCVisitManager.Controllers
             SetLEDColors(cpRequest);
         }
 
+        [Route("cd_lamp")]
+        public void ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)
+        {
+            _dBManager.ChargerDockerLampRecognized(Mapper.Map<CPLampData>(cdLampReq));
+        }
+
         [Route("hello")]
         public void GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
@@ -71,5 +77,7 @@ namespace FLDCVisitManager.Controllers
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(cpUrl, data);
         }
+
+        
     }
 }
