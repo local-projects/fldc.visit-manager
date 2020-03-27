@@ -57,8 +57,7 @@ namespace FLDCVisitManager.Controllers
         [Route("hello")]
         public void GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
-            /*            if(worked)
-                            SetLEDColors();*/
+            _dBManager.UpdateCollectionPoint(req.ID, req.FW);
         }
 
         public async void SetLEDColors(CPRequestParams cpDetails)

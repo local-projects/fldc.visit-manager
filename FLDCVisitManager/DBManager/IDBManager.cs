@@ -9,5 +9,6 @@ namespace DBManager
         void SetDBConfiguration(string connectionString);
         SqlConnection OpenConnection();
         void UpdateCollectionPointLampInteraction(CPLampData data);
+        void UpdateCollectionPoint(string iD, string fW);
     }
 }

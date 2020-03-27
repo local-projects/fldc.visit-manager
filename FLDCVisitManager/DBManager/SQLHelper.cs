@@ -31,6 +31,20 @@ namespace DBManager
             }
 
         }
+        public void UpdateCollectionPoint(string cpId, string cpFw)
+        {
+            try
+            {
+                using (var conn = OpenConnection())
+                {
+                    var items = conn.Query("stp_CollectionPoint_Update", new { cpId, cpFw }, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (new Exception($"Error connecting to the DB, error message {ex.Message}"));
+            }
+        }
 
         public void SetDBConfiguration(string connectionString)
         {
