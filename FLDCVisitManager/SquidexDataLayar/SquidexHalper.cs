@@ -26,7 +26,7 @@ namespace CMSDataLayer
             collectionPointsData = clientManager.GetClient<CollectionPoint, CollectionPointData>("collection-points");
         }
 
-        public async Task<CollectionPoint> GetCollectionPointsById(int cpId)
+        public async Task<CollectionPoint> GetCollectionPointsById(string cpId)
         {
             var query = new ODataQuery
             {
