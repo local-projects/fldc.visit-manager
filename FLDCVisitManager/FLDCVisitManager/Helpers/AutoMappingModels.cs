@@ -24,6 +24,7 @@ namespace FLDCVisitManagerBackend.Helpers
                 /*                .ForMember(dest => dest.PointName, src => src.MapFrom(s => s.Data.PointName.Iv))*/
                 ;
             CreateMap<CPLampIncomingRequest, CPLampData>().ForMember(dest => dest.CPId, src => src.MapFrom(s => s.Id));
+            CreateMap<ChargerDockerLampIncomingRequest, CDLampData>();
         }
     }
 }

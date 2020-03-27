@@ -31,7 +31,7 @@ namespace FLDCVisitManager.Controllers
         private readonly IMapper _mapper;
         private static IDBManager _dBManager;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper, 
+        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper,
             IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DataBaseOptions> connectionString)
         {
             _logger = logger;
@@ -49,21 +49,26 @@ namespace FLDCVisitManager.Controllers
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
             _dBManager.UpdateCollectionPointLampInteraction(Mapper.Map<CPLampData>(req));
-            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(req.Id); 
+            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(req.Id);
             var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
             SetLEDColors(cpRequest);
         }
 
         [Route("cd_lamp")]
-        public void ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)
+        public IActionResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)
         {
-            _dBManager.ChargerDockerLampRecognized(Mapper.Map<CPLampData>(cdLampReq));
+            var result = _dBManager.ChargerDockerLampRecognized(Mapper.Map<CDLampData>(cdLampReq));
+            if (result.Status != 200)
+            {
+                return NotFound(result.Message);
+            }
+            return Ok(result.Message);
         }
 
         [Route("hello")]
-        public void GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
+        public IActionResult GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
-            _dBManager.UpdateCollectionPoint(req.ID, req.FW);
+            var response = _dBManager.UpdateCollectionPoint(req.ID, req.FW);
         }
 
         public async void SetLEDColors(CPRequestParams cpDetails)
@@ -78,6 +83,6 @@ namespace FLDCVisitManager.Controllers
             var result = await client.PostAsync(cpUrl, data);
         }
 
-        
+
     }
 }
