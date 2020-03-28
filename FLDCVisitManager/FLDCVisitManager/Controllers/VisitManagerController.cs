@@ -69,6 +69,18 @@ namespace FLDCVisitManager.Controllers
         public IActionResult GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
             var response = _dBManager.UpdateCollectionPoint(req.ID, req.FW);
+            if (response.Status != 200)
+            {
+                return NotFound(response.Message);
+            }
+            return Ok(response.Message);
+        }
+
+        [Route("fwUpdate")]
+        public IActionResult GetFirmwareFtpDetails()
+        {
+            var result = _dBManager.GetFirmwareFtpDetails();
+            return new JsonResult(result);
         }
 
         public async void SetLEDColors(CPRequestParams cpDetails)

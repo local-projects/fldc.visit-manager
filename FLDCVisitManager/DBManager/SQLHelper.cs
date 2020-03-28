@@ -82,5 +82,22 @@ namespace DBManager
             else
                 return new ResponseResult() { Status = 206, Message = "Nothing was updated in the DB" };
         }
+
+        public FTPDetails GetFirmwareFtpDetails()
+        {
+            FTPDetails result = null;
+            try
+            {
+                using (var conn = OpenConnection())
+                {
+                    result = conn.Query<FTPDetails>("stp_FirmwareFtpDetails_Get", new {  }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

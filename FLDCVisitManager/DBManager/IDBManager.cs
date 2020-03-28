@@ -11,5 +11,6 @@ namespace DBManager
         ResponseResult UpdateCollectionPointLampInteraction(CPLampData data);
         ResponseResult UpdateCollectionPoint(string iD, string fW);
         ResponseResult ChargerDockerLampRecognized(CDLampData cPLampData);
+        FTPDetails GetFirmwareFtpDetails();
     }
 }
