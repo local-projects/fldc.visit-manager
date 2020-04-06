@@ -12,6 +12,7 @@ namespace CMSDataLayer
     {
         private static SquidexClient<LedColorsSeq, LedColorsSeqData> ledColorsSeqClient;
         private static SquidexClient<CollectionPoint, CollectionPointData> collectionPointsData;
+        private static SquidexClient<ImageAsset, ImageAssetData> cpImageAsset;
 
         public SquidexHalper()
         {
@@ -24,6 +25,7 @@ namespace CMSDataLayer
 
             ledColorsSeqClient = clientManager.GetClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
             collectionPointsData = clientManager.GetClient<CollectionPoint, CollectionPointData>("collection-points");
+            cpImageAsset = clientManager.GetClient<ImageAsset, ImageAssetData>("cp-image-asset");
         }
 
         public async Task<CollectionPoint> GetCollectionPointsById(string cpId)
@@ -35,11 +37,19 @@ namespace CMSDataLayer
 
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
-            if(cpResult.Data.TriggerAnimation != null)
+            if (cpResult.Data.TriggerAnimation != null)
                 cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
             if (cpResult.Data.SleepAnimation != null)
                 cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
+            if (cpResult.Data.CollectionAssets != null)
+                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv.FirstOrDefault());
             return data.Items.FirstOrDefault();
+        }
+
+        private Task GetCollectionAsset(string iv)
+        {
+            var referenceData = cpImageAsset.GetAsync(new HashSet<Guid> { Guid.Parse(iv) });
+            throw new NotImplementedException();
         }
 
         public async Task<LedColorsSeq> GetLedColors(string seqId)
@@ -50,7 +60,7 @@ namespace CMSDataLayer
                 var colors = await ledColorsSeqClient.GetAsync(refId);
                 return colors;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
