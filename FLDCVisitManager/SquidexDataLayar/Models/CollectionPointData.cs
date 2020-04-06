@@ -19,19 +19,21 @@ namespace CMSDataLayer.Models
         public CpIp PointName { get; set; }
 
         [JsonProperty("pointAsset")]
-        public ReturnAnimation PointAsset { get; set; }
+        public References PointAsset { get; set; }
 
         [JsonProperty("CPIp")]
         public CpIp CpIp { get; set; }
 
         [JsonProperty("SleepAnimation")]
-        public ReturnAnimation SleepAnimation { get; set; }
+        public References SleepAnimation { get; set; }
 
         [JsonProperty("TriggerAnimation")]
-        public ReturnAnimation TriggerAnimation { get; set; }
+        public References TriggerAnimation { get; set; }
 
         [JsonProperty("ReturnAnimation")]
-        public ReturnAnimation ReturnAnimation { get; set; }
+        public References ReturnAnimation { get; set; }
+        [JsonProperty("CollectionAssets")]
+        public References CollectionAssets { get; set; }
         public LedColorsSeq TriggerLedColorsSeq { get; set; }
         public LedColorsSeq SleepLedColorsSeq { get; set; }
     }
@@ -42,7 +44,7 @@ namespace CMSDataLayer.Models
         public string Iv { get; set; }
     }
 
-    public partial class ReturnAnimation
+    public partial class References
     {
         [JsonProperty("iv")]
         public List<string> Iv { get; set; }
