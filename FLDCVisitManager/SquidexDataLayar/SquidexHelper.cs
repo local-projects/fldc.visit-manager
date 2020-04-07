@@ -5,6 +5,7 @@ using Squidex.ClientLibrary;
 using CMSDataLayer.Models;
 using System.Linq;
 using CMSDataLayer;
+using Newtonsoft.Json;
 
 namespace CMSDataLayer
 {
@@ -42,14 +43,31 @@ namespace CMSDataLayer
             if (cpResult.Data.SleepAnimation != null)
                 cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
             if (cpResult.Data.CollectionAssets != null)
-                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv.FirstOrDefault());
+                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);
             return data.Items.FirstOrDefault();
         }
 
-        private async Task GetCollectionAsset(string iv)
+        private async Task GetCollectionAsset(List<string> iv, CollectionPoint cpData)
         {
-            var referenceData = await cpImageAsset.GetAsync(new HashSet<Guid> { Guid.Parse(iv) });
-            //var asset = clientManager.GetClient<DynamicContent, DynamicData>(referenceData.Items.FirstOrDefault().SchemaName);
+            var dynamicClient = clientManager.CreateContentsClient<DynamicContentDetails, DynamicContentData>("collection-points");
+            var referenceData = await dynamicClient.GetAsync(new HashSet<Guid>(iv.Select(x => Guid.Parse(x))));
+            cpData.Data.QuoteAssets = new List<QuoteAsset>();
+            cpData.Data.ImageAssets = new List<ImageAssetData>();
+            string jsonData;
+            foreach (var content in referenceData.Items)
+            {
+                switch (content.SchemaName)
+                {
+                    case "cp-image-asset":
+                        jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
+                        cpData.Data.ImageAssets.Add(JsonConvert.DeserializeObject<ImageAssetData>(jsonData));
+                        break;
+                    case "cp-quote-asset":
+                        jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
+                        cpData.Data.QuoteAssets.Add(JsonConvert.DeserializeObject<QuoteAsset>(jsonData));
+                        break;
+                }
+            }
         }
 
         public async Task<LedColorsSeq> GetLedColors(string seqId)
@@ -67,12 +85,22 @@ namespace CMSDataLayer
             return null;
         }
     }
-    public sealed class DynamicData : SquidexEntityBase<DynamicContent>
+    public sealed class DynamicContent : SquidexEntityBase<DynamicData>
     {
 
     }
 
-    public sealed class DynamicContent : Content<DynamicData>
+    public sealed class DynamicData : Content<DynamicData>
+    {
+
+    }
+
+    public sealed class DynamicContentData : Dictionary<string, object>
+    {
+
+    }
+
+    public sealed class DynamicContentDetails : Content<DynamicContentData>
     {
 
     }

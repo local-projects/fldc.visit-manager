@@ -36,6 +36,8 @@ namespace CMSDataLayer.Models
         public References CollectionAssets { get; set; }
         public LedColorsSeq TriggerLedColorsSeq { get; set; }
         public LedColorsSeq SleepLedColorsSeq { get; set; }
+        public List<ImageAssetData> ImageAssets { get; set; }
+        public List<QuoteAsset> QuoteAssets { get; set; }
     }
 
     public partial class CpIp

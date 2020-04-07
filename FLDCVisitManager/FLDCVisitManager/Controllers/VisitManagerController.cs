@@ -85,7 +85,6 @@ namespace FLDCVisitManager.Controllers
 
         public async void SetLEDColors(CPRequestParams cpDetails)
         {
-            //int[] test = { 0xFF0000, 0x00FF00, 0x0000FF, 0xEE82EE, 0xFF };
             var cpUrl = new Uri(cpDetails.CpIp + "/setLedColorSequence");
             using var client = new HttpClient();
             var serializerSettings = new JsonSerializerSettings();

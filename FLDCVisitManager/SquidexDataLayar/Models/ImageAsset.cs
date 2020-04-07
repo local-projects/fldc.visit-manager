@@ -13,7 +13,7 @@ namespace CMSDataLayer.Models
     public partial class ImageAssetData
     {
         [JsonProperty("ImageAsset")]
-        public ImageAssetClass ImageAssetImageAsset { get; set; }
+        public ImageAssetClass ImageAsset { get; set; }
 
         [JsonProperty("Caption")]
         public Caption Caption { get; set; }
