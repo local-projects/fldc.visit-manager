@@ -43,12 +43,21 @@ namespace FLDCVisitManager.Controllers
             _dBManager.SetDBConfiguration(connectionString.Value.DefaultConnection);
         }
 
+        [Route("getVisitorCollectabileItems")]
+        [HttpGet]
+        public async Task<IActionResult> GetVisitorCollectabileItems(string lampId)
+        {
+            var result = _dBManager.GetVisitorCollectabileItems(lampId);
+            var assetsData = await _cmsDataHelper.GetCollectionAssets(result);
+            return new JsonResult(result);
+        }
+
         [Route("cpLamp")]
         [HttpGet]
         public async void CollectionPointLamp()//(CPLampIncomingRequest req)
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-            var cpDetails = await _cmsDataHelper.GetCollectionPointById(req.Id);
+            var cpDetails = await _cmsDataHelper.GetCollectionPointDataById(req.Id);
             var cpLampDetails = new CPLampData()
             {
                 CPId = req.Id,

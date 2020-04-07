@@ -61,7 +61,22 @@ namespace DBManager
             else
                 return new ResponseResult() { Status = 206, Message = "Nothing was updating the DB" };
         }
-
+        public List<string> GetVisitorCollectabileItems(string lampId)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+                using (var conn = OpenConnection())
+                {
+                    return result = conn.Query<string>("stp_VisitorCollections_Get", new { lampId }, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //throw (new Exception($"Error connecting to the DB, error message {ex.Message}"));
+            }
+        }
         public ResponseResult ChargerDockerLampRecognized(CDLampData cdLampData)
         {
             var updatedRows = 0;

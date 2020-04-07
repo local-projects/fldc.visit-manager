@@ -1,5 +1,6 @@
 ﻿using DBManager.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DBManager
@@ -12,5 +13,6 @@ namespace DBManager
         ResponseResult UpdateCollectionPoint(string iD, string fW);
         ResponseResult ChargerDockerLampRecognized(CDLampData cPLampData);
         FTPDetails GetFirmwareFtpDetails();
+        List<string> GetVisitorCollectabileItems(string lampId);
     }
 }

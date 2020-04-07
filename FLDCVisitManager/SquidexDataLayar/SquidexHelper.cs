@@ -29,7 +29,7 @@ namespace CMSDataLayer
             cpImageAsset = clientManager.GetClient<ImageAsset, ImageAssetData>("cp-image-asset");
         }
 
-        public async Task<CollectionPoint> GetCollectionPointById(string cpId)
+        public async Task<CollectionPoint> GetCollectionPointDataById(string cpId)
         {
             var query = new ODataQuery
             {
@@ -47,12 +47,13 @@ namespace CMSDataLayer
             return data.Items.FirstOrDefault();
         }
 
-        private async Task GetCollectionAsset(List<string> iv, CollectionPoint cpData)
+        public async Task<CollectionPointAssets> GetCollectionAssets(List<string> iv)//, CollectionPoint cpData)
         {
             var dynamicClient = clientManager.CreateContentsClient<DynamicContentDetails, DynamicContentData>("collection-points");
             var referenceData = await dynamicClient.GetAsync(new HashSet<Guid>(iv.Select(x => Guid.Parse(x))));
-            cpData.Data.QuoteAssets = new List<QuoteAsset>();
-            cpData.Data.ImageAssets = new List<ImageAssetData>();
+            var assets = new CollectionPointAssets();
+/*            cpData.Data.QuoteAssets = new List<QuoteAsset>();
+            cpData.Data.ImageAssets = new List<ImageAssetData>();*/
             string jsonData;
             foreach (var content in referenceData.Items)
             {
@@ -60,14 +61,21 @@ namespace CMSDataLayer
                 {
                     case "cp-image-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        cpData.Data.ImageAssets.Add(JsonConvert.DeserializeObject<ImageAssetData>(jsonData));
+                        //return JsonConvert.DeserializeObject<ImageAssetData>(jsonData);
+                        var insertedImage = JsonConvert.DeserializeObject<ImageAssetData>(jsonData);
+                        insertedImage.Iv = content.Id.ToString();
+                        assets.ImageAssets.Add(insertedImage);
                         break;
-                    case "cp-quote-asset":
+                    case "cp-qoute-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        cpData.Data.QuoteAssets.Add(JsonConvert.DeserializeObject<QuoteAsset>(jsonData));
+                        //return JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
+                        var insertedQuote = JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
+                        insertedQuote.Iv = content.Id.ToString();
+                        assets.QuoteAssets.Add(insertedQuote);
                         break;
                 }
             }
+            return assets;
         }
 
         public async Task<LedColorsSeq> GetLedColors(string seqId)

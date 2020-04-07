@@ -7,6 +7,8 @@ namespace CMSDataLayer.Models
 {
     public partial class QuoteAsset
     {
+        public string Iv { get; set; }
+
         [JsonProperty("Quote")]
         public Quote Quote { get; set; }
 

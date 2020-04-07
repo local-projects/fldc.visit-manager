@@ -12,6 +12,8 @@ namespace CMSDataLayer.Models
     }
     public partial class ImageAssetData
     {
+        public string Iv { get; set; }
+
         [JsonProperty("ImageAsset")]
         public ImageAssetClass ImageAsset { get; set; }
 
