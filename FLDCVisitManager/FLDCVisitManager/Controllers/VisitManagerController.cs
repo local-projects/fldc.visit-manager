@@ -45,7 +45,7 @@ namespace FLDCVisitManager.Controllers
 
         [Route("cpLamp")]
         [HttpGet]
-        public async void GetCollectionPointDetails()//(CPLampIncomingRequest req)
+        public async void CollectionPointLamp()//(CPLampIncomingRequest req)
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
             var cpDetails = await _cmsDataHelper.GetCollectionPointById(req.Id);
