@@ -48,8 +48,14 @@ namespace FLDCVisitManager.Controllers
         public async void GetCollectionPointDetails()//(CPLampIncomingRequest req)
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-            _dBManager.UpdateCollectionPointLampInteraction(Mapper.Map<CPLampData>(req));
-            var cpDetails = await _cmsDataHelper.GetCollectionPointsById(req.Id);
+            var cpDetails = await _cmsDataHelper.GetCollectionPointById(req.Id);
+            var cpLampDetails = new CPLampData()
+            {
+                CPId = req.Id,
+                LampId = req.LampId,
+                AssetId = cpDetails.Data.CollectionAssets.Iv.FirstOrDefault() //TODO - for now 1 option
+            };
+            _dBManager.UpdateCollectionPointLampInteraction(cpLampDetails);
             var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
             SetLEDColors(cpRequest);
         }

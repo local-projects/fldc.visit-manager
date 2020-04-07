@@ -28,7 +28,7 @@ namespace DBManager
             {
                 using (var conn = OpenConnection())
                 {
-                    insertedRows = conn.Query<int>("stp_VisitorToCollectionPoint_Insert", new { data.CPId, data.LampId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    insertedRows = conn.Query<int>("stp_VisitorToCollectionPoint_Insert", new { data.CPId, data.LampId, data.AssetId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 }
             }
             catch(Exception ex)

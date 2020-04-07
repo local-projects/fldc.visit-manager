@@ -8,5 +8,6 @@ namespace DBManager.Models
     {
         public string CPId { get; set; }
         public string LampId { get; set; }
+        public string AssetId { get; set; }
     }
 }

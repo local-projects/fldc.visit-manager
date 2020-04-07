@@ -29,7 +29,7 @@ namespace CMSDataLayer
             cpImageAsset = clientManager.GetClient<ImageAsset, ImageAssetData>("cp-image-asset");
         }
 
-        public async Task<CollectionPoint> GetCollectionPointsById(string cpId)
+        public async Task<CollectionPoint> GetCollectionPointById(string cpId)
         {
             var query = new ODataQuery
             {
@@ -42,8 +42,8 @@ namespace CMSDataLayer
                 cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
             if (cpResult.Data.SleepAnimation != null)
                 cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
-            if (cpResult.Data.CollectionAssets != null)
-                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);
+/*            if (cpResult.Data.CollectionAssets != null)
+                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);*/
             return data.Items.FirstOrDefault();
         }
 
