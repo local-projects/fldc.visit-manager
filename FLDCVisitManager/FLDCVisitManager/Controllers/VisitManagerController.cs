@@ -38,7 +38,7 @@ namespace FLDCVisitManager.Controllers
         [HttpGet]
         public async Task<IActionResult> GetVisitorCollectabileItems(string lampId)
         {
-            var collectabileItems = _businessLogic.GetVisitorCollectabileItems(lampId);
+            var collectabileItems = await _businessLogic.GetVisitorCollectabileItems(lampId);
             return new JsonResult(collectabileItems);
         }
 
