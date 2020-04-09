@@ -9,6 +9,7 @@ using CMSDataLayer;
 using CMSDataLayer.Models;
 using DBManager;
 using DBManager.Models;
+using FLDCVisitManagerBackend.BL;
 using FLDCVisitManagerBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,31 +26,20 @@ namespace FLDCVisitManager.Controllers
     {
 
         private readonly ILogger<VisitManagerController> _logger;
-        private static bool worked = true;
-        private static ICMSDataHelper _cmsDataHelper;
-        private static AppOptionsConfiguration _cmsOptions;
-        private readonly IMapper _mapper;
-        private static IDBManager _dBManager;
+        private static IBusinessLogic _businessLogic;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IMapper mapper, ICMSDataHelper cmsDataHelper,
-            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DataBaseOptions> connectionString)
+        public VisitManagerController(ILogger<VisitManagerController> logger, IBusinessLogic bl)
         {
             _logger = logger;
-            _cmsDataHelper = cmsDataHelper;
-            _cmsOptions = cmsOptions.Value;
-            _mapper = mapper;
-            _cmsDataHelper.ConnectToCMS(_mapper.Map<AppOptions>(_cmsOptions));
-            _dBManager = dBManager;
-            _dBManager.SetDBConfiguration(connectionString.Value.DefaultConnection);
+            _businessLogic = bl;
         }
 
         [Route("getVisitorCollectabileItems")]
         [HttpGet]
         public async Task<IActionResult> GetVisitorCollectabileItems(string lampId)
         {
-            var result = _dBManager.GetVisitorCollectabileItems(lampId);
-            var assetsData = await _cmsDataHelper.GetCollectionAssets(result);
-            return new JsonResult(result);
+            var collectabileItems = _businessLogic.GetVisitorCollectabileItems(lampId);
+            return new JsonResult(collectabileItems);
         }
 
         [Route("cpLamp")]
@@ -57,22 +47,13 @@ namespace FLDCVisitManager.Controllers
         public async void CollectionPointLamp()//(CPLampIncomingRequest req)
         {
             var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-            var cpDetails = await _cmsDataHelper.GetCollectionPointDataById(req.Id);
-            var cpLampDetails = new CPLampData()
-            {
-                CPId = req.Id,
-                LampId = req.LampId,
-                AssetId = cpDetails.Data.CollectionAssets.Iv.FirstOrDefault() //TODO - for now 1 option
-            };
-            _dBManager.UpdateCollectionPointLampInteraction(cpLampDetails);
-            var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
-            SetLEDColors(cpRequest);
+            _businessLogic.CollectionPointLamp(req.Id, req.LampId);
         }
 
         [Route("cd_lamp")]
         public IActionResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)
         {
-            var result = _dBManager.ChargerDockerLampRecognized(Mapper.Map<CDLampData>(cdLampReq));
+            var result = _businessLogic.ChargerDockerLamp(cdLampReq);
             if (result.Status != 200)
             {
                 return NotFound(result.Message);
@@ -81,9 +62,9 @@ namespace FLDCVisitManager.Controllers
         }
 
         [Route("hello")]
-        public IActionResult GetCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
+        public IActionResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
-            var response = _dBManager.UpdateCollectionPoint(req.ID, req.FW);
+            var response = _businessLogic.UpdateCollectionPointHeartBeat(req);
             if (response.Status != 200)
             {
                 return NotFound(response.Message);
@@ -94,21 +75,8 @@ namespace FLDCVisitManager.Controllers
         [Route("fwUpdate")]
         public IActionResult GetFirmwareFtpDetails()
         {
-            var result = _dBManager.GetFirmwareFtpDetails();
+            var result = _businessLogic.GetFirmwareFtpDetails(); 
             return new JsonResult(result);
         }
-
-        public async void SetLEDColors(CPRequestParams cpDetails)
-        {
-            var cpUrl = new Uri(cpDetails.CpIp + "/setLedColorSequence");
-            using var client = new HttpClient();
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            var json = JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(cpUrl, data);
-        }
-
-
     }
 }

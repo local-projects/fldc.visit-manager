@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DBManager\DBManager.csproj" />
+    <ProjectReference Include="..\DBManager\DataAccess.csproj" />
     <ProjectReference Include="..\SquidexDataLayar\CMSDataLayer.csproj" />
   </ItemGroup>
 

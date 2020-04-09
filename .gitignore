@@ -24,3 +24,11 @@ FLDCVisitManager/DBManager/bin/Debug/netcoreapp3.1/DBManager.pdb
 FLDCVisitManager/DBManager/obj/
 
 FLDCVisitManager/DBManager/bin/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCUnitTest/obj/
+
+FLDCVisitManager/FLDCBackend.Test/obj/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCBackend.Test/bin/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCBackend.Test/obj/

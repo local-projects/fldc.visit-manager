@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using CMSDataLayer;
 using DBManager;
+using FLDCVisitManagerBackend.BL;
 
 namespace FLDCVisitManager
 {
@@ -40,6 +41,7 @@ namespace FLDCVisitManager
             services.AddAutoMapper(typeof(Startup));
             services.AddSingleton<ICMSDataHelper, SquidexHelper>();
             services.AddScoped<IDBManager, SQLHelper>();
+            services.AddScoped<IBusinessLogic, BusinessLogic>();
             services.AddControllers();
         }
 
