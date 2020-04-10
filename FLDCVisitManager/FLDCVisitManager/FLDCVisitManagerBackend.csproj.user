@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>FLDCVisitManager</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>LPDeploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

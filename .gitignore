@@ -32,3 +32,11 @@ FLDCVisitManager/FLDCBackend.Test/obj/Debug/netcoreapp3.1/
 FLDCVisitManager/FLDCBackend.Test/bin/Debug/netcoreapp3.1/
 
 FLDCVisitManager/FLDCBackend.Test/obj/
+
+FLDCVisitManager/SquidexDataLayar/bin/
+
+FLDCVisitManager/DBManager/bin/
+
+FLDCVisitManager/.vs/
+
+FLDCVisitManager/FLDCVisitManager/bin/
