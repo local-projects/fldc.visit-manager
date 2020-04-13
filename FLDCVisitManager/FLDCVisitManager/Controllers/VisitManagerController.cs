@@ -44,9 +44,9 @@ namespace FLDCVisitManager.Controllers
 
         [Route("cpLamp")]
         [HttpGet]
-        public async void CollectionPointLamp()//(CPLampIncomingRequest req)
+        public void CollectionPointLamp([FromBody]CPLampIncomingRequest req)//()
         {
-            var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
+            //var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
             _businessLogic.CollectionPointLamp(req.Id, req.LampId);
         }
 

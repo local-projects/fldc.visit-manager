@@ -68,11 +68,16 @@ namespace FLDCVisitManagerBackend.BL
         {
             var cpUrl = new Uri(cpDetails.CpIp + "/setLedColorSequence");
             using var client = new HttpClient();
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            var json = JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
+            var json = SerializeObjectToJson<LEDRequestParams>(cpDetails.TriggerAnimation);// JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(cpUrl, data);
+        }
+
+        public string SerializeObjectToJson<T>(T objectToSerialize)
+        {
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return JsonConvert.SerializeObject(objectToSerialize, serializerSettings);
         }
 
         public async void CollectionPointLamp(string cpId, string lampId)
