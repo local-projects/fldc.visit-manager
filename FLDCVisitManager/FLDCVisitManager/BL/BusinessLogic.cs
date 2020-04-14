@@ -36,9 +36,14 @@ namespace FLDCVisitManagerBackend.BL
         public async Task<List<CollectibleItem>> GetVisitorCollectabileItems(string lampId)
         {
             var result = _dBManager.GetVisitorCollectabileItems(lampId);
-            var assetsData = await _cmsDataHelper.GetCollectionAssets(result);
-            var output = ConvertAssetsToIdList(assetsData);
-            return output;
+            if (result != null)
+            {
+                var assetsData = await _cmsDataHelper.GetCollectionAssets(result);
+                var output = ConvertAssetsToIdList(assetsData);
+                return output;
+            }
+            else
+                return new List<CollectibleItem>();
         }
 
         public List<CollectibleItem> ConvertAssetsToIdList(CollectionPointAssets cpAssets)

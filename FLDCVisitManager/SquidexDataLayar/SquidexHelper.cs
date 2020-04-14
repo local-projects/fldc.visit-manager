@@ -52,8 +52,6 @@ namespace CMSDataLayer
             var dynamicClient = clientManager.CreateContentsClient<DynamicContentDetails, DynamicContentData>("collection-points");
             var referenceData = await dynamicClient.GetAsync(new HashSet<Guid>(iv.Select(x => Guid.Parse(x))));
             var assets = new CollectionPointAssets();
-/*            cpData.Data.QuoteAssets = new List<QuoteAsset>();
-            cpData.Data.ImageAssets = new List<ImageAssetData>();*/
             string jsonData;
             foreach (var content in referenceData.Items)
             {
@@ -61,14 +59,12 @@ namespace CMSDataLayer
                 {
                     case "cp-image-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        //return JsonConvert.DeserializeObject<ImageAssetData>(jsonData);
                         var insertedImage = JsonConvert.DeserializeObject<ImageAssetData>(jsonData);
                         insertedImage.Iv = content.Id.ToString();
                         assets.ImageAssets.Add(insertedImage);
                         break;
                     case "cp-qoute-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        //return JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
                         var insertedQuote = JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
                         insertedQuote.Iv = content.Id.ToString();
                         assets.QuoteAssets.Add(insertedQuote);
