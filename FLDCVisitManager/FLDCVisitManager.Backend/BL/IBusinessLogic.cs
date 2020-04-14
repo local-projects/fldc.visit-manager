@@ -14,5 +14,6 @@ namespace FLDCVisitManagerBackend.BL
         ResponseResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq);
         ResponseResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req);
         FTPDetails GetFirmwareFtpDetails();
+        void GetAllCollectabileItems(DateTime? dateLastTaken);
     }
 }

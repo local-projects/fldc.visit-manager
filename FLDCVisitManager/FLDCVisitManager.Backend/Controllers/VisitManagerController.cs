@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CMSDataLayer;
-using CMSDataLayer.Models;
+using FLDCVisitManager.CMSDataLayar;
+using FLDCVisitManager.CMSDataLayar.DTO;
 using DBManager;
 using DBManager.Models;
 using FLDCVisitManagerBackend.BL;
@@ -32,6 +32,14 @@ namespace FLDCVisitManager.Controllers
         {
             _logger = logger;
             _businessLogic = bl;
+        }
+
+        [Route("getAllCollectabileItems")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllCollectabileItems(DateTime? dateLastTaken)
+        {
+            _businessLogic.GetAllCollectabileItems(dateLastTaken);
+            return new JsonResult(null);
         }
 
         [Route("getVisitorCollectabileItems")]

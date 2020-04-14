@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Squidex.ClientLibrary;
 
-namespace CMSDataLayer.Models
+namespace FLDCVisitManager.CMSDataLayar.DTO
 {
     public class LedColorsSeq : SquidexEntityBase<LedColorsSeqData>
     {

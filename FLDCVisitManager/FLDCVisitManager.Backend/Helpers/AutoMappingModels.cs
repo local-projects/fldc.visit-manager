@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CMSDataLayer.Models;
+using FLDCVisitManager.CMSDataLayar.DTO;
 using DBManager.Models;
 using FLDCVisitManagerBackend.Models;
 using System;

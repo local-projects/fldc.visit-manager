@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using CMSDataLayer.Models;
+using FLDCVisitManager.CMSDataLayar.DTO;
 using FLDCVisitManagerBackend.Models;
 using FLDCVisitManagerBackend.BL;
 using System.Linq;

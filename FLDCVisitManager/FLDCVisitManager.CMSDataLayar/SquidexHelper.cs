@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Squidex.ClientLibrary;
-using CMSDataLayer.Models;
+using FLDCVisitManager.CMSDataLayar.DTO;
 using System.Linq;
-using CMSDataLayer;
 using Newtonsoft.Json;
 
-namespace CMSDataLayer
+namespace FLDCVisitManager.CMSDataLayar
 {
     public class SquidexHelper : ICMSDataHelper
     {
@@ -88,24 +87,5 @@ namespace CMSDataLayer
             }
             return null;
         }
-    }
-    public sealed class DynamicContent : SquidexEntityBase<DynamicData>
-    {
-
-    }
-
-    public sealed class DynamicData : Content<DynamicData>
-    {
-
-    }
-
-    public sealed class DynamicContentData : Dictionary<string, object>
-    {
-
-    }
-
-    public sealed class DynamicContentDetails : Content<DynamicContentData>
-    {
-
     }
 }

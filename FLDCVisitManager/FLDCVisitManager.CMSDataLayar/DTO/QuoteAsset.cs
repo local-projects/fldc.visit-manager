@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CMSDataLayer.Models
+namespace FLDCVisitManager.CMSDataLayar.DTO
 {
     public partial class QuoteAsset
     {

@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CMSDataLayer;
-using CMSDataLayer.Models;
+using FLDCVisitManager.CMSDataLayar;
+using FLDCVisitManager.CMSDataLayar.DTO;
 using DBManager;
 using DBManager.Models;
 using FLDCVisitManagerBackend.Models;
@@ -112,6 +112,11 @@ namespace FLDCVisitManagerBackend.BL
         public FTPDetails GetFirmwareFtpDetails()
         {
             return _dBManager.GetFirmwareFtpDetails();
+        }
+
+        public void GetAllCollectabileItems(DateTime? dateLastTaken)
+        {
+
         }
     }
 }
