@@ -40,3 +40,25 @@ FLDCVisitManager/DBManager/bin/
 FLDCVisitManager/.vs/
 
 FLDCVisitManager/FLDCVisitManager/bin/
+
+FLDCVisitManager/FLDCVisitManager.Backend/.config/
+
+FLDCVisitManager/FLDCVisitManager.Backend/bin/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCVisitManager.Backend/obj/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCVisitManager.Backend/obj/
+
+FLDCVisitManager/FLDCVisitManager.CMSDataLayar/obj/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCVisitManager.CMSDataLayar/obj/
+
+FLDCVisitManager/FLDCVisitManager.CMSDataLayar/bin/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCVisitManager.DataLayer/.vs/
+
+FLDCVisitManager/FLDCVisitManager.DataLayer/obj/Debug/netcoreapp3.1/
+
+FLDCVisitManager/FLDCVisitManager.DataLayer/obj/
+
+FLDCVisitManager/FLDCVisitManager/.config/

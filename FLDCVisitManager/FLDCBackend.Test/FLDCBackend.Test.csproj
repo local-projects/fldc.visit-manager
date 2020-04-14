@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FLDCVisitManager\FLDCVisitManagerBackend.csproj" />
+    <ProjectReference Include="..\FLDCVisitManager.Backend\FLDCVisitManager.Backend.csproj" />
   </ItemGroup>
 
   <ItemGroup>
