@@ -116,7 +116,8 @@ namespace FLDCVisitManagerBackend.BL
 
         public void GetAllCollectabileItems(DateTime? dateLastTaken)
         {
-
+            //var allAssets =
+            _cmsDataHelper.GetAllCollectabileAssets(dateLastTaken);
         }
     }
 }

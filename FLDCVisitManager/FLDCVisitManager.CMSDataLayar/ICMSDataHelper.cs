@@ -12,5 +12,6 @@ namespace FLDCVisitManager.CMSDataLayar
         Task<CollectionPoint> GetCollectionPointDataById(string cpId);
         void ConnectToCMS(AppOptions appOptions);
         Task<CollectionPointAssets> GetCollectionAssets(List<string> iv);
+        void GetAllCollectabileAssets(DateTime? dateLastTaken);
     }
 }

@@ -1,11 +1,16 @@
 ﻿using Newtonsoft.Json;
+using Squidex.ClientLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FLDCVisitManager.CMSDataLayar.DTO
 {
-    public partial class QuoteAsset
+    public class QuoteAsset : SquidexEntityBase<QuoteAssetData>
+    {
+
+    }
+    public partial class QuoteAssetData
     {
         public string Iv { get; set; }
 

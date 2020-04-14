@@ -17,7 +17,7 @@ namespace FLDCBackend.Test
             var bl = new BusinessLogic(null, null, null, null, null);
             CollectionPointAssets value = new CollectionPointAssets();
             value.ImageAssets = new List<ImageAssetData>();
-            value.QuoteAssets = new List<QuoteAsset>();
+            value.QuoteAssets = new List<QuoteAssetData>();
             value.ImageAssets.Add(new ImageAssetData()
             {
                 Iv = "c8ad4314-fd8b-4200-994c-366bfd87ae12",

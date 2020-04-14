@@ -13,6 +13,7 @@ namespace FLDCVisitManager.CMSDataLayar
         private static SquidexClient<LedColorsSeq, LedColorsSeqData> ledColorsSeqClient;
         private static SquidexClient<CollectionPoint, CollectionPointData> collectionPointsData;
         private static SquidexClient<ImageAsset, ImageAssetData> cpImageAsset;
+        private static SquidexClient<QuoteAsset, QuoteAssetData> cpQuoteAsset;
         private static SquidexClientManager clientManager;
         public SquidexHelper()
         {
@@ -26,15 +27,13 @@ namespace FLDCVisitManager.CMSDataLayar
             ledColorsSeqClient = clientManager.GetClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
             collectionPointsData = clientManager.GetClient<CollectionPoint, CollectionPointData>("collection-points");
             cpImageAsset = clientManager.GetClient<ImageAsset, ImageAssetData>("cp-image-asset");
+            cpQuoteAsset = clientManager.GetClient<QuoteAsset, QuoteAssetData>("cp-qoute-asset");
         }
 
         public async Task<CollectionPoint> GetCollectionPointDataById(string cpId)
         {
-            var query = new ODataQuery
-            {
-                Filter = $"data/pointID/iv eq {cpId}"
-            };
-
+            var queryDictionary = CreateFieldDictonary("pointID/iv", cpId);
+            var query = GetQuery(queryDictionary); 
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
             if (cpResult.Data.TriggerAnimation != null)
@@ -44,6 +43,13 @@ namespace FLDCVisitManager.CMSDataLayar
 /*            if (cpResult.Data.CollectionAssets != null)
                 await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);*/
             return data.Items.FirstOrDefault();
+        }
+
+        private Dictionary<string, string> CreateFieldDictonary(string field, string value)
+        {
+            var queryFields = new Dictionary<string, string>();
+            queryFields.Add(field, value);
+            return queryFields;
         }
 
         public async Task<CollectionPointAssets> GetCollectionAssets(List<string> iv)//, CollectionPoint cpData)
@@ -64,7 +70,7 @@ namespace FLDCVisitManager.CMSDataLayar
                         break;
                     case "cp-qoute-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        var insertedQuote = JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
+                        var insertedQuote = JsonConvert.DeserializeObject<QuoteAssetData>(jsonData);
                         insertedQuote.Iv = content.Id.ToString();
                         assets.QuoteAssets.Add(insertedQuote);
                         break;
@@ -86,6 +92,59 @@ namespace FLDCVisitManager.CMSDataLayar
                 throw;
             }
             return null;
+        }
+        public async void GetAllCollectabileAssets(DateTime? dateLastTaken)
+        {
+            var imageAssets = GetImageAssets(dateLastTaken);
+            var quoteAssets = GetQuoteAssets(dateLastTaken);
+        }
+
+        public async Task<List<ImageAsset>> GetImageAssets(DateTime? dateLastTaken, string iv = null)
+        {
+            if (string.IsNullOrEmpty(iv))
+            {
+                var queryDictionary = CreateFieldDictonary("id", iv);
+                var query = GetQuery(queryDictionary);
+                var imageAssets = await cpImageAsset.GetAsync(query);
+                return imageAssets.Items;
+            }
+            else
+            {
+                var imageAssets = await cpImageAsset.GetAllAsync();
+                return imageAssets.Items;
+            }
+        }
+
+        public async Task<List<QuoteAsset>> GetQuoteAssets(DateTime? dateLastTaken, string iv = null)
+        {
+            if (string.IsNullOrEmpty(iv))
+            {
+                var queryDictionary = CreateFieldDictonary("id", iv);
+                var query = GetQuery(queryDictionary);
+                var quoteAssets = await cpQuoteAsset.GetAsync(query);
+                return quoteAssets.Items;
+            }
+            else
+            {
+                var quoteAssets = await cpQuoteAsset.GetAllAsync();
+                return quoteAssets.Items;
+            }
+        }
+
+        public ODataQuery GetQuery(Dictionary<string, string> fieldValuePair)
+        {
+            string filter = string.Empty;
+            foreach (var pair in fieldValuePair.Select((Entry, Index) => new { Entry, Index }))
+            {
+                if (pair.Index == 0)
+                    filter = $"data/{pair.Entry.Key} eq {pair.Entry.Value}";
+                else
+                    filter += $"&& data/{ pair.Entry.Key} eq { pair.Entry.Value}";
+            }
+            return new ODataQuery
+            {
+                Filter = filter
+            };
         }
     }
 }
