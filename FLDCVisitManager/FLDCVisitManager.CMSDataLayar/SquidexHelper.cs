@@ -63,14 +63,14 @@ namespace FLDCVisitManager.CMSDataLayar
                 {
                     case "cp-image-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        var insertedImage = JsonConvert.DeserializeObject<ImageAssetData>(jsonData);
-                        insertedImage.Iv = content.Id.ToString();
+                        var insertedImage = JsonConvert.DeserializeObject<ImageAsset>(jsonData);
+                        insertedImage.Id = content.Id.ToString();
                         assets.ImageAssets.Add(insertedImage);
                         break;
                     case "cp-qoute-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
-                        var insertedQuote = JsonConvert.DeserializeObject<QuoteAssetData>(jsonData);
-                        insertedQuote.Iv = content.Id.ToString();
+                        var insertedQuote = JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
+                        insertedQuote.Id = content.Id.ToString();
                         assets.QuoteAssets.Add(insertedQuote);
                         break;
                 }
@@ -92,15 +92,17 @@ namespace FLDCVisitManager.CMSDataLayar
             }
             return null;
         }
-        public async void GetAllCollectabileAssets(DateTime? dateLastTaken)
+        public async Task<CollectionPointAssets> GetAllCollectibleAssets(DateTime? dateLastTaken)
         {
-            var imageAssets = GetImageAssets(dateLastTaken);
-            var quoteAssets = GetQuoteAssets(dateLastTaken);
+            var collectabileAssets = new CollectionPointAssets();
+            collectabileAssets.ImageAssets = await GetImageAssets(dateLastTaken);
+            collectabileAssets.QuoteAssets = await GetQuoteAssets(dateLastTaken);
+            return collectabileAssets;
         }
 
         public async Task<List<ImageAsset>> GetImageAssets(DateTime? dateLastTaken, string iv = null)
         {
-            if (string.IsNullOrEmpty(iv) || dateLastTaken != null)
+            if (!string.IsNullOrEmpty(iv) || dateLastTaken != null)
             {
                 var queryDictionary = new Dictionary<string, string>();
                 if (string.IsNullOrEmpty(iv))
@@ -120,7 +122,7 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<List<QuoteAsset>> GetQuoteAssets(DateTime? dateLastTaken, string iv = null)
         {
-            if (string.IsNullOrEmpty(iv) || dateLastTaken != null)
+            if (!string.IsNullOrEmpty(iv) || dateLastTaken != null)
             {
                 var queryDictionary = new Dictionary<string, string>();
                 if (string.IsNullOrEmpty(iv))

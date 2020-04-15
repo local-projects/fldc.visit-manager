@@ -13,6 +13,6 @@ namespace DBManager
         ResponseResult UpdateCollectionPoint(string iD, string fW);
         ResponseResult ChargerDockerLampRecognized(CDLampData cPLampData);
         FTPDetails GetFirmwareFtpDetails();
-        List<string> GetVisitorCollectabileItems(string lampId);
+        List<string> GetVisitorCollectibleItems(string lampId);
     }
 }

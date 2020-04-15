@@ -9,11 +9,11 @@ namespace FLDCVisitManagerBackend.BL
 {
     public interface IBusinessLogic
     {
-        Task<List<CollectibleItem>> GetVisitorCollectabileItems(string lampId);
+        Task<List<CollectibleItemReference>> GetVisitorCollectibleItems(string lampId);
         void CollectionPointLamp(string cpId, string lampId);
         ResponseResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq);
         ResponseResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req);
         FTPDetails GetFirmwareFtpDetails();
-        void GetAllCollectabileItems(DateTime? dateLastTaken);
+        Task<List<CollectibleItem>> GetAllCollectibleItems(DateTime? dateLastTaken);
     }
 }

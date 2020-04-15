@@ -61,7 +61,7 @@ namespace DBManager
             else
                 return new ResponseResult() { Status = 206, Message = "Nothing was updating the DB" };
         }
-        public List<string> GetVisitorCollectabileItems(string lampId)
+        public List<string> GetVisitorCollectibleItems(string lampId)
         {
             List<string> result = new List<string>();
             try

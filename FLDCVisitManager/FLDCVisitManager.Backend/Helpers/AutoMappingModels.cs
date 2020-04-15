@@ -4,6 +4,8 @@ using DBManager.Models;
 using FLDCVisitManagerBackend.Models;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace FLDCVisitManagerBackend.Helpers
 {
@@ -25,6 +27,16 @@ namespace FLDCVisitManagerBackend.Helpers
                 ;
             CreateMap<CPLampIncomingRequest, CPLampData>().ForMember(dest => dest.CPId, src => src.MapFrom(s => s.Id));
             CreateMap<ChargerDockerLampIncomingRequest, CDLampData>();
+            CreateMap<List<Iv>, Dictionary<string, int>>()
+                .ConvertUsing(x => 
+                {
+                    var dic = new Dictionary<string, int>();
+                    foreach(var item in x)
+                        dic.Add(item.StringValue, Convert.ToInt32(item.ValueNumber));
+                    return dic;
+                });
+/*                .ForMember(dest => dest.Keys, src => src.MapFrom(s => s.Iv.Select(x => x.StringValue).ToList()))
+                .ForMember(dest => dest.Values, src => src.MapFrom(s => s.Iv.Select(x => Convert.ToInt16(x.ValueNumber)).ToList()));*/
         }
     }
 }

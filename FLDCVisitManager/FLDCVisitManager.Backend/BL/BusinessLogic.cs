@@ -33,9 +33,9 @@ namespace FLDCVisitManagerBackend.BL
             _dBManager = dBManager;
             _dBManager.SetDBConfiguration(connectionString.Value.DefaultConnection);
         }
-        public async Task<List<CollectibleItem>> GetVisitorCollectabileItems(string lampId)
+        public async Task<List<CollectibleItemReference>> GetVisitorCollectibleItems(string lampId)
         {
-            var result = _dBManager.GetVisitorCollectabileItems(lampId);
+            var result = _dBManager.GetVisitorCollectibleItems(lampId);
             if (result != null)
             {
                 var assetsData = await _cmsDataHelper.GetCollectionAssets(result);
@@ -43,30 +43,56 @@ namespace FLDCVisitManagerBackend.BL
                 return output;
             }
             else
-                return new List<CollectibleItem>();
+                return new List<CollectibleItemReference>();
         }
 
-        public List<CollectibleItem> ConvertAssetsToIdList(CollectionPointAssets cpAssets)
+        public List<CollectibleItemReference> ConvertAssetsToIdList(CollectionPointAssets cpAssets)
         {
-            var output = new List<CollectibleItem>();
+            var output = new List<CollectibleItemReference>();
             foreach(var asset in cpAssets.ImageAssets)
             {
-                var image = new CollectibleItem();
-                image.CollectabileId = asset.Iv;
+                var image = new CollectibleItemReference();
+                image.CollectabileId = asset.Id;
                 image.CollectabileType = "Image";
-                image.AssetId = asset.ImageAsset.Iv.FirstOrDefault();
+                image.AssetId = asset.Data.ImageAsset.Iv.FirstOrDefault();
                 output.Add(image);
             }
 
             foreach (var asset in cpAssets.QuoteAssets)
             {
-                var quote = new CollectibleItem();
-                quote.CollectabileId = asset.Iv;
+                var quote = new CollectibleItemReference();
+                quote.CollectabileId = asset.Id;
                 quote.CollectabileType = "Quote";
                 //quote.AssetId = asset.ImageAsset.Iv.FirstOrDefault();
                 output.Add(quote);
             }
             return output;
+        }
+        public List<CollectibleItem> ConvertAssetsToCollectibleItems(CollectionPointAssets assets)
+        {
+            var output = new List<CollectibleItem>();
+            foreach (var asset in assets.ImageAssets)
+            {
+                var image = new CollectibleItem();
+                image.Id = asset.Id;
+                image.ImageUrl = GenerateImageUrl(asset.Data.ImageAsset.Iv.FirstOrDefault());
+                image.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
+                output.Add(image);
+            }
+
+            foreach (var asset in assets.QuoteAssets)
+            {
+                var quote = new CollectibleItem();
+                quote.Id = asset.Id;
+                quote.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
+                output.Add(quote);
+            }
+            return output;
+        }
+
+        public string GenerateImageUrl(string hashId)
+        {
+            return $"{_cmsOptions.Url}/api/assets/{_cmsOptions.AppName}/{hashId}";
         }
 
         public async void SetLEDColors(CPRequestParams cpDetails)
@@ -114,10 +140,10 @@ namespace FLDCVisitManagerBackend.BL
             return _dBManager.GetFirmwareFtpDetails();
         }
 
-        public void GetAllCollectabileItems(DateTime? dateLastTaken)
+        public async Task<List<CollectibleItem>> GetAllCollectibleItems(DateTime? dateLastTaken)
         {
-            //var allAssets =
-            _cmsDataHelper.GetAllCollectabileAssets(dateLastTaken);
+            var allAssets = await _cmsDataHelper.GetAllCollectibleAssets(dateLastTaken);
+            return ConvertAssetsToCollectibleItems(allAssets);
         }
     }
 }

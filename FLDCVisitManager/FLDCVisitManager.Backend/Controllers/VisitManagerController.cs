@@ -38,15 +38,15 @@ namespace FLDCVisitManager.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCollectabileItems(DateTime? dateLastTaken)
         {
-            _businessLogic.GetAllCollectabileItems(dateLastTaken);
-            return new JsonResult(null);
+            var allAssets = await _businessLogic.GetAllCollectibleItems(dateLastTaken);
+            return new JsonResult(allAssets);
         }
 
         [Route("getVisitorCollectabileItems")]
         [HttpGet]
         public async Task<IActionResult> GetVisitorCollectabileItems(string lampId)
         {
-            var collectabileItems = await _businessLogic.GetVisitorCollectabileItems(lampId);
+            var collectabileItems = await _businessLogic.GetVisitorCollectibleItems(lampId);
             return new JsonResult(collectabileItems);
         }
 
