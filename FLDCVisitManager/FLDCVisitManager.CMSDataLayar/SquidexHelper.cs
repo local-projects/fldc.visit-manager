@@ -32,7 +32,8 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<CollectionPoint> GetCollectionPointDataById(string cpId)
         {
-            var queryDictionary = CreateFieldDictonary("pointID/iv", cpId);
+            var queryDictionary = new Dictionary<string, string>();
+            CreateFieldDictonary("pointID/iv", cpId, queryDictionary);
             var query = GetQuery(queryDictionary); 
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
@@ -45,11 +46,9 @@ namespace FLDCVisitManager.CMSDataLayar
             return data.Items.FirstOrDefault();
         }
 
-        private Dictionary<string, string> CreateFieldDictonary(string field, string value)
+        private void CreateFieldDictonary(string field, string value, Dictionary<string, string> queryFields)
         {
-            var queryFields = new Dictionary<string, string>();
             queryFields.Add(field, value);
-            return queryFields;
         }
 
         public async Task<CollectionPointAssets> GetCollectionAssets(List<string> iv)//, CollectionPoint cpData)
@@ -101,9 +100,13 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<List<ImageAsset>> GetImageAssets(DateTime? dateLastTaken, string iv = null)
         {
-            if (string.IsNullOrEmpty(iv))
+            if (string.IsNullOrEmpty(iv) || dateLastTaken != null)
             {
-                var queryDictionary = CreateFieldDictonary("id", iv);
+                var queryDictionary = new Dictionary<string, string>();
+                if (string.IsNullOrEmpty(iv))
+                    CreateFieldDictonary("id", iv, queryDictionary);
+                if(dateLastTaken != null)
+                    CreateFieldDictonary("lastModified", dateLastTaken.ToString(), queryDictionary);
                 var query = GetQuery(queryDictionary);
                 var imageAssets = await cpImageAsset.GetAsync(query);
                 return imageAssets.Items;
@@ -117,9 +120,13 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<List<QuoteAsset>> GetQuoteAssets(DateTime? dateLastTaken, string iv = null)
         {
-            if (string.IsNullOrEmpty(iv))
+            if (string.IsNullOrEmpty(iv) || dateLastTaken != null)
             {
-                var queryDictionary = CreateFieldDictonary("id", iv);
+                var queryDictionary = new Dictionary<string, string>();
+                if (string.IsNullOrEmpty(iv))
+                    CreateFieldDictonary("id", iv, queryDictionary);
+                if (dateLastTaken != null)
+                    CreateFieldDictonary("lastModified", dateLastTaken.ToString(), queryDictionary);
                 var query = GetQuery(queryDictionary);
                 var quoteAssets = await cpQuoteAsset.GetAsync(query);
                 return quoteAssets.Items;
