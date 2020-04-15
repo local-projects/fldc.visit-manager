@@ -10,10 +10,10 @@ namespace FLDCVisitManager.CMSDataLayar
 {
     public class SquidexHelper : ICMSDataHelper
     {
-        private static SquidexClient<LedColorsSeq, LedColorsSeqData> ledColorsSeqClient;
-        private static SquidexClient<CollectionPoint, CollectionPointData> collectionPointsData;
-        private static SquidexClient<ImageAsset, ImageAssetData> cpImageAsset;
-        private static SquidexClient<QuoteAsset, QuoteAssetData> cpQuoteAsset;
+        private static IContentsClient<LedColorsSeq, LedColorsSeqData> ledColorsSeqClient;
+        private static IContentsClient<CollectionPoint, CollectionPointData> collectionPointsData;
+        private static IContentsClient<ImageAsset, ImageAssetData> cpImageAsset;
+        private static IContentsClient<QuoteAsset, QuoteAssetData> cpQuoteAsset;
         private static SquidexClientManager clientManager;
         public SquidexHelper()
         {
@@ -24,10 +24,10 @@ namespace FLDCVisitManager.CMSDataLayar
         {
             clientManager = new SquidexClientManager(appOptions.Url, appOptions.AppName, appOptions.ClientId, appOptions.ClientSecret);
 
-            ledColorsSeqClient = clientManager.GetClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
-            collectionPointsData = clientManager.GetClient<CollectionPoint, CollectionPointData>("collection-points");
-            cpImageAsset = clientManager.GetClient<ImageAsset, ImageAssetData>("cp-image-asset");
-            cpQuoteAsset = clientManager.GetClient<QuoteAsset, QuoteAssetData>("cp-qoute-asset");
+            ledColorsSeqClient = clientManager.CreateContentsClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
+            collectionPointsData = clientManager.CreateContentsClient<CollectionPoint, CollectionPointData>("collection-points");
+            cpImageAsset = clientManager.CreateContentsClient<ImageAsset, ImageAssetData>("cp-image-asset");
+            cpQuoteAsset = clientManager.CreateContentsClient<QuoteAsset, QuoteAssetData>("cp-qoute-asset");
         }
 
         public async Task<CollectionPoint> GetCollectionPointDataById(string cpId)
@@ -64,13 +64,13 @@ namespace FLDCVisitManager.CMSDataLayar
                     case "cp-image-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
                         var insertedImage = JsonConvert.DeserializeObject<ImageAsset>(jsonData);
-                        insertedImage.Id = content.Id.ToString();
+                        insertedImage.Id = content.Id;
                         assets.ImageAssets.Add(insertedImage);
                         break;
                     case "cp-qoute-asset":
                         jsonData = JsonConvert.SerializeObject(content.Data, Formatting.None);
                         var insertedQuote = JsonConvert.DeserializeObject<QuoteAsset>(jsonData);
-                        insertedQuote.Id = content.Id.ToString();
+                        insertedQuote.Id = content.Id;
                         assets.QuoteAssets.Add(insertedQuote);
                         break;
                 }
@@ -115,7 +115,7 @@ namespace FLDCVisitManager.CMSDataLayar
             }
             else
             {
-                var imageAssets = await cpImageAsset.GetAllAsync();
+                var imageAssets = await cpImageAsset.GetAsync();
                 return imageAssets.Items;
             }
         }
@@ -135,12 +135,12 @@ namespace FLDCVisitManager.CMSDataLayar
             }
             else
             {
-                var quoteAssets = await cpQuoteAsset.GetAllAsync();
+                var quoteAssets = await cpQuoteAsset.GetAsync();
                 return quoteAssets.Items;
             }
         }
 
-        public ODataQuery GetQuery(Dictionary<string, string> fieldValuePair)
+        public ContentQuery GetQuery(Dictionary<string, string> fieldValuePair)
         {
             string filter = string.Empty;
             foreach (var pair in fieldValuePair.Select((Entry, Index) => new { Entry, Index }))
@@ -150,7 +150,7 @@ namespace FLDCVisitManager.CMSDataLayar
                 else
                     filter += $"&& data/{ pair.Entry.Key} eq { pair.Entry.Value}";
             }
-            return new ODataQuery
+            return new ContentQuery
             {
                 Filter = filter
             };

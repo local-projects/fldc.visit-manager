@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FLDCVisitManager.CMSDataLayar.DTO
 {
-    public class QuoteAsset : SquidexEntityBase<QuoteAssetData>
+    public class QuoteAsset : Content<QuoteAssetData>
     {
 
     }

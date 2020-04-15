@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FLDCVisitManager.CMSDataLayar.DTO
 {
-    public class ImageAsset : SquidexEntityBase<ImageAssetData>
+    public class ImageAsset : Content<ImageAssetData>
     {
 
     }

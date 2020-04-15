@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FLDCVisitManager.CMSDataLayar.DTO
 {
-    public class CollectionPoint : SquidexEntityBase<CollectionPointData>
+    public class CollectionPoint : Content<CollectionPointData>
     {
 
     }

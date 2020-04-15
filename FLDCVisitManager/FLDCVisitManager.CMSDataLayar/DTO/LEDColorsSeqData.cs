@@ -5,7 +5,7 @@ using Squidex.ClientLibrary;
 
 namespace FLDCVisitManager.CMSDataLayar.DTO
 {
-    public class LedColorsSeq : SquidexEntityBase<LedColorsSeqData>
+    public class LedColorsSeq : Content<LedColorsSeqData>
     {
 
     }

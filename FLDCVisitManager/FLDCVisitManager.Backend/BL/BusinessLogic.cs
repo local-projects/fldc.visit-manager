@@ -52,7 +52,7 @@ namespace FLDCVisitManagerBackend.BL
             foreach(var asset in cpAssets.ImageAssets)
             {
                 var image = new CollectibleItemReference();
-                image.CollectabileId = asset.Id;
+                image.CollectabileId = asset.Id.ToString();
                 image.CollectabileType = "Image";
                 image.AssetId = asset.Data.ImageAsset.Iv.FirstOrDefault();
                 output.Add(image);
@@ -61,7 +61,7 @@ namespace FLDCVisitManagerBackend.BL
             foreach (var asset in cpAssets.QuoteAssets)
             {
                 var quote = new CollectibleItemReference();
-                quote.CollectabileId = asset.Id;
+                quote.CollectabileId = asset.Id.ToString();
                 quote.CollectabileType = "Quote";
                 //quote.AssetId = asset.ImageAsset.Iv.FirstOrDefault();
                 output.Add(quote);
@@ -74,7 +74,7 @@ namespace FLDCVisitManagerBackend.BL
             foreach (var asset in assets.ImageAssets)
             {
                 var image = new CollectibleItem();
-                image.Id = asset.Id;
+                image.Id = asset.Id.ToString();
                 image.ImageUrl = GenerateImageUrl(asset.Data.ImageAsset.Iv.FirstOrDefault());
                 image.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
                 output.Add(image);
@@ -83,7 +83,7 @@ namespace FLDCVisitManagerBackend.BL
             foreach (var asset in assets.QuoteAssets)
             {
                 var quote = new CollectibleItem();
-                quote.Id = asset.Id;
+                quote.Id = asset.Id.ToString();
                 quote.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
                 output.Add(quote);
             }

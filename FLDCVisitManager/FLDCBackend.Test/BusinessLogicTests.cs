@@ -20,7 +20,7 @@ namespace FLDCBackend.Test
             value.QuoteAssets = new List<QuoteAsset>();
             value.ImageAssets.Add(new ImageAsset()
             {
-                Id = "c8ad4314-fd8b-4200-994c-366bfd87ae12",
+                Id = new System.Guid("c8ad4314-fd8b-4200-994c-366bfd87ae12"),
                 Data =
                 {
                     Caption = new Caption() { Iv = "Tamar test" },
@@ -46,7 +46,7 @@ namespace FLDCBackend.Test
             var result = bl.ConvertAssetsToIdList(value);
             Assert.True(result.Count == 1);
             Assert.Equal(result.FirstOrDefault().AssetId, value.ImageAssets.FirstOrDefault().Data.ImageAsset.Iv.FirstOrDefault());
-            Assert.Equal(result.FirstOrDefault().CollectabileId, value.ImageAssets.FirstOrDefault().Id);
+            Assert.Equal(result.FirstOrDefault().CollectabileId, value.ImageAssets.FirstOrDefault().Id.ToString());
             /*            Assert.Equal(result.FirstOrDefault().CollectabileType, "Image");*/
         }
     }
