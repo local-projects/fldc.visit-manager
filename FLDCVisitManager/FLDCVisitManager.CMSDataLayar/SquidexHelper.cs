@@ -22,8 +22,14 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public void ConnectToCMS(AppOptions appOptions)
         {
-            clientManager = new SquidexClientManager(appOptions.Url, appOptions.AppName, appOptions.ClientId, appOptions.ClientSecret);
-
+            var options = new SquidexOptions()
+            {
+                AppName = appOptions.AppName,
+                ClientId = appOptions.ClientId,
+                ClientSecret = appOptions.ClientSecret,
+                Url = appOptions.Url
+            };
+            clientManager = new SquidexClientManager(options);
             ledColorsSeqClient = clientManager.CreateContentsClient<LedColorsSeq, LedColorsSeqData>("cp-led-color-sequence");
             collectionPointsData = clientManager.CreateContentsClient<CollectionPoint, CollectionPointData>("collection-points");
             cpImageAsset = clientManager.CreateContentsClient<ImageAsset, ImageAssetData>("cp-image-asset");
