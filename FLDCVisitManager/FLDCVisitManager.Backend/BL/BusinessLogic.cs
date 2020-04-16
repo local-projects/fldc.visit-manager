@@ -77,6 +77,9 @@ namespace FLDCVisitManagerBackend.BL
                 image.Id = asset.Id.ToString();
                 image.ImageUrl = GenerateImageUrl(asset.Data.ImageAsset.Iv.FirstOrDefault());
                 image.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
+                image.Caption = asset.Data.Caption.Iv;
+                image.Credit = asset.Data.Credit.Iv;
+                image.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon.Iv.FirstOrDefault());
                 output.Add(image);
             }
 
@@ -85,6 +88,7 @@ namespace FLDCVisitManagerBackend.BL
                 var quote = new CollectibleItem();
                 quote.Id = asset.Id.ToString();
                 quote.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
+                quote.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon.Iv.FirstOrDefault());
                 output.Add(quote);
             }
             return output;

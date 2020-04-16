@@ -25,12 +25,30 @@ namespace FLDCVisitManager.CMSDataLayar.DTO
 
         [JsonProperty("Values")]
         public Values Values { get; set; }
+
+        [JsonProperty("ShowInShopify")]
+        public ShowInShopify ShowInShopify { get; set; }
+
+        [JsonProperty("ShopifyIcon")]
+        public ShopifyIcon ShopifyIcon { get; set; }
     }
 
     public partial class Caption
     {
         [JsonProperty("iv")]
         public string Iv { get; set; }
+    }
+
+    public partial class ShopifyIcon
+    {
+        [JsonProperty("iv")]
+        public List<string> Iv { get; set; }
+    }
+
+    public partial class ShowInShopify
+    {
+        [JsonProperty("iv")]
+        public bool Iv { get; set; }
     }
 
     public partial class ImageAssetClass

@@ -18,5 +18,7 @@ namespace FLDCVisitManagerBackend.Models
         public string ImageUrl { get; set; }
         public Dictionary<string, int> ValuePairs { get; set; }
         public string IconUrl { get; set; }
+        public string Caption { get; set; }
+        public string Credit { get; set; }
     }
 }
