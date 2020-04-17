@@ -32,7 +32,7 @@ namespace FLDCVisitManager
             services.Configure<AppOptionsConfiguration>(cmsSettings);
             services.Configure<DatabaseOptions>(Configuration.GetSection("ConnectionStrings"));
             services.AddAutoMapper(typeof(Startup));
-            services.AddSingleton<ICMSDataHelper, SquidexHelper>();
+            services.AddTransient<ICMSDataHelper, SquidexHelper>();
             services.AddTransient<IDBManager, SQLHelper>();
             services.AddControllers();
         }
