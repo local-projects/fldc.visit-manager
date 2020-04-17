@@ -98,6 +98,8 @@ namespace FLDCVisitManagerBackend.BL
 
         public string GenerateImageUrl(string hashId)
         {
+            if (string.IsNullOrEmpty(hashId))
+                return null;
             return $"{_cmsOptions.Url}/api/assets/{_cmsOptions.AppName}/{hashId}";
         }
 

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace FLDCVisitManager.Controllers
 {
@@ -28,11 +29,11 @@ namespace FLDCVisitManager.Controllers
         private readonly ILogger<VisitManagerController> _logger;
         private static IBusinessLogic _businessLogic;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger,
+        public VisitManagerController(//ILogger<VisitManagerController> logger,
             IMapper mapper, ICMSDataHelper cmsDataHelper,
             IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DatabaseOptions> connectionString)
         {
-            _logger = logger;
+            _logger = NullLogger<VisitManagerController>.Instance;//logger;
             _businessLogic = new BusinessLogic(mapper, cmsDataHelper, cmsOptions.Value, dBManager, connectionString.Value);
         }
 
