@@ -15,8 +15,9 @@ namespace FLDCBackend.Test
 {
     public class BusinessLogicTests
     {
-        [Fact]
-        public void ConvertAssetsToIdList_CPAssetsListShouldReturnListOfIds()
+        private static BusinessLogic bl;
+
+        public BusinessLogicTests()
         {
             var mapperMock = new Mock<IMapper>();
             var cmsMock = new Mock<ICMSDataHelper>();
@@ -26,7 +27,12 @@ namespace FLDCBackend.Test
             var dbOptionsMock = new Mock<DatabaseOptions>();
             dbMock.Setup(x => x.SetDBConfiguration(dbOptionsMock.Object.DefaultConnection));
 
-            var bl = new BusinessLogic(mapperMock.Object, cmsMock.Object, cmsOptionsMock.Object, dbMock.Object, dbOptionsMock.Object);
+            bl = new BusinessLogic(mapperMock.Object, cmsMock.Object, cmsOptionsMock.Object, dbMock.Object, dbOptionsMock.Object);
+        }
+
+        [Fact]
+        public void ConvertAssetsToIdList_CPAssetsListShouldReturnListOfIds()
+        {
             CollectionPointAssets value = new CollectionPointAssets();
             value.ImageAssets = new List<ImageAsset>();
             value.QuoteAssets = new List<QuoteAsset>();
