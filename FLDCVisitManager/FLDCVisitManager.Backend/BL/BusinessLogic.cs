@@ -24,14 +24,14 @@ namespace FLDCVisitManagerBackend.BL
         private static IDBManager _dBManager;
 
         public BusinessLogic(IMapper mapper, ICMSDataHelper cmsDataHelper,
-            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DataBaseOptions> connectionString)
+            AppOptionsConfiguration cmsOptions, IDBManager dBManager, DatabaseOptions connectionString)
         {
             _cmsDataHelper = cmsDataHelper;
-            _cmsOptions = cmsOptions.Value;
+            _cmsOptions = cmsOptions;
             _mapper = mapper;
             _cmsDataHelper.ConnectToCMS(_mapper.Map<AppOptions>(_cmsOptions));
             _dBManager = dBManager;
-            _dBManager.SetDBConfiguration(connectionString.Value.DefaultConnection);
+            _dBManager.SetDBConfiguration(connectionString.DefaultConnection);
         }
         public async Task<List<CollectibleItemReference>> GetVisitorCollectibleItems(string lampId)
         {
@@ -75,11 +75,12 @@ namespace FLDCVisitManagerBackend.BL
             {
                 var image = new CollectibleItem();
                 image.Id = asset.Id.ToString();
-                image.ImageUrl = GenerateImageUrl(asset.Data.ImageAsset.Iv.FirstOrDefault());
+                image.ImageUrl = GenerateImageUrl(asset.Data.ImageAsset?.Iv.FirstOrDefault());
                 image.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
                 image.Caption = asset.Data.Caption.Iv;
                 image.Credit = asset.Data.Credit.Iv;
-                image.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon.Iv.FirstOrDefault());
+                if(asset.Data.ShopifyIcon != null)
+                    image.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon?.Iv.FirstOrDefault());
                 output.Add(image);
             }
 
@@ -88,7 +89,8 @@ namespace FLDCVisitManagerBackend.BL
                 var quote = new CollectibleItem();
                 quote.Id = asset.Id.ToString();
                 quote.ValuePairs = Mapper.Map<Dictionary<string, int>>(asset.Data.Values.Iv);
-                quote.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon.Iv.FirstOrDefault());
+                if (asset.Data.ShopifyIcon != null)
+                    quote.IconUrl = GenerateImageUrl(asset.Data.ShopifyIcon?.Iv.FirstOrDefault());
                 output.Add(quote);
             }
             return output;

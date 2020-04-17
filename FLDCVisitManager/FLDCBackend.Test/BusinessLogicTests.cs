@@ -6,6 +6,10 @@ using FLDCVisitManagerBackend.BL;
 using System.Linq;
 using Autofac.Extras.Moq;
 using AutoMapper;
+using Moq;
+using FLDCVisitManager.CMSDataLayar;
+using Microsoft.Extensions.Options;
+using DBManager;
 
 namespace FLDCBackend.Test
 {
@@ -14,7 +18,15 @@ namespace FLDCBackend.Test
         [Fact]
         public void ConvertAssetsToIdList_CPAssetsListShouldReturnListOfIds()
         {
-            var bl = new BusinessLogic(null, null, null, null, null);
+            var mapperMock = new Mock<IMapper>();
+            var cmsMock = new Mock<ICMSDataHelper>();
+            var cmsOptionsMock = new Mock<AppOptionsConfiguration>();
+            cmsMock.Setup(x => x.ConnectToCMS(mapperMock.Object.Map<AppOptions>(cmsOptionsMock)));
+            var dbMock = new Mock<IDBManager>();
+            var dbOptionsMock = new Mock<DatabaseOptions>();
+            dbMock.Setup(x => x.SetDBConfiguration(dbOptionsMock.Object.DefaultConnection));
+
+            var bl = new BusinessLogic(mapperMock.Object, cmsMock.Object, cmsOptionsMock.Object, dbMock.Object, dbOptionsMock.Object);
             CollectionPointAssets value = new CollectionPointAssets();
             value.ImageAssets = new List<ImageAsset>();
             value.QuoteAssets = new List<QuoteAsset>();

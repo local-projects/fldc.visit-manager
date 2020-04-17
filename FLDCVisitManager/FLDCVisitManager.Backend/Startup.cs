@@ -30,11 +30,10 @@ namespace FLDCVisitManager
         {
             IConfigurationSection cmsSettings = Configuration.GetSection("CMSOptions");
             services.Configure<AppOptionsConfiguration>(cmsSettings);
-            services.Configure<DataBaseOptions>(Configuration.GetSection("ConnectionStrings"));
+            services.Configure<DatabaseOptions>(Configuration.GetSection("ConnectionStrings"));
             services.AddAutoMapper(typeof(Startup));
             services.AddSingleton<ICMSDataHelper, SquidexHelper>();
-            services.AddScoped<IDBManager, SQLHelper>();
-            services.AddScoped<IBusinessLogic, BusinessLogic>();
+            services.AddTransient<IDBManager, SQLHelper>();
             services.AddControllers();
         }
 

@@ -28,10 +28,12 @@ namespace FLDCVisitManager.Controllers
         private readonly ILogger<VisitManagerController> _logger;
         private static IBusinessLogic _businessLogic;
 
-        public VisitManagerController(ILogger<VisitManagerController> logger, IBusinessLogic bl)
+        public VisitManagerController(ILogger<VisitManagerController> logger,
+            IMapper mapper, ICMSDataHelper cmsDataHelper,
+            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DatabaseOptions> connectionString)
         {
             _logger = logger;
-            _businessLogic = bl;
+            _businessLogic = new BusinessLogic(mapper, cmsDataHelper, cmsOptions.Value, dBManager, connectionString.Value);
         }
 
         [Route("getAllCollectabileItems")]

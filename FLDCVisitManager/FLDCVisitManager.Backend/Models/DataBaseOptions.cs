@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FLDCVisitManagerBackend.Models
 {
-    public class DataBaseOptions
+    public class DatabaseOptions
     {
         public string DefaultConnection { get; set; }
     }
