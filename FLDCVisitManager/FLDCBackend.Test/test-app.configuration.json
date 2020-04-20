@@ -1,0 +1,6 @@
+{
+  "CMSOptions": {
+    "Url": "https://cloud.squidex.io",
+    "AppName": "fldc-prod"
+  }
+}

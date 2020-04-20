@@ -10,24 +10,45 @@ using Moq;
 using FLDCVisitManager.CMSDataLayar;
 using Microsoft.Extensions.Options;
 using DBManager;
+using Microsoft.Extensions.Configuration;
 
 namespace FLDCBackend.Test
 {
     public class BusinessLogicTests
     {
         private static BusinessLogic bl;
+        private static IConfigurationRoot _config;
 
         public BusinessLogicTests()
         {
+
+            _config = new ConfigurationBuilder()
+             .AddJsonFile("test-app.configuration.json")
+             .Build();
+
             var mapperMock = new Mock<IMapper>();
             var cmsMock = new Mock<ICMSDataHelper>();
-            var cmsOptionsMock = new Mock<AppOptionsConfiguration>();
-            cmsMock.Setup(x => x.ConnectToCMS(mapperMock.Object.Map<AppOptions>(cmsOptionsMock)));
+            var cmsOptions = new AppOptionsConfiguration()
+            {
+                AppName = _config["CMSOptions:AppName"].ToString(),
+                Url = _config["CMSOptions:Url"].ToString()
+            };
+            cmsMock.Setup(x => x.ConnectToCMS(mapperMock.Object.Map<AppOptions>(cmsOptions)));
             var dbMock = new Mock<IDBManager>();
             var dbOptionsMock = new Mock<DatabaseOptions>();
             dbMock.Setup(x => x.SetDBConfiguration(dbOptionsMock.Object.DefaultConnection));
 
-            bl = new BusinessLogic(mapperMock.Object, cmsMock.Object, cmsOptionsMock.Object, dbMock.Object, dbOptionsMock.Object);
+            bl = new BusinessLogic(mapperMock.Object, cmsMock.Object, cmsOptions, dbMock.Object, dbOptionsMock.Object);
+        }
+
+        [Theory]
+        [InlineData("1234", "https://cloud.squidex.io/api/assets/fldc-prod/1234")]
+        [InlineData("", null)]
+        [InlineData(null, null)]
+        public void GenerateImageUrl_SimpleStringShouldReturnUrlPath(string value, string expected)
+        {
+            var result = bl.GenerateImageUrl(value);
+            Assert.Equal(expected, result);
         }
 
         [Fact]
