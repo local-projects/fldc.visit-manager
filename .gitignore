@@ -1,66 +1,23 @@
-
-FLDCVisitManager/ClassLibrary1/bin/Debug/netcoreapp3.1/
-
-FLDCVisitManager/ClassLibrary1/obj/
-
-FLDCVisitManager/FLDCVisitManager/bin/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCVisitManager/obj/Debug/netcoreapp3.1/
-
-FLDCVisitManager/.vs/FLDCVisitManager/DesignTimeBuild/.dtbcache
-
-FLDCVisitManager/.vs/FLDCVisitManager/v16/
-
-FLDCVisitManager/FLDCVisitManager/obj/
-
-FLDCVisitManager/SquidexDataLayar/bin/Debug/netcoreapp3.1/
-
-FLDCVisitManager/SquidexDataLayar/obj/
-
-FLDCVisitManager/DBManager/bin/Debug/netcoreapp3.1/DBManager.deps.json
-
-FLDCVisitManager/DBManager/bin/Debug/netcoreapp3.1/DBManager.pdb
-
-FLDCVisitManager/DBManager/obj/
-
-FLDCVisitManager/DBManager/bin/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCUnitTest/obj/
-
-FLDCVisitManager/FLDCBackend.Test/obj/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCBackend.Test/bin/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCBackend.Test/obj/
-
-FLDCVisitManager/SquidexDataLayar/bin/
-
-FLDCVisitManager/DBManager/bin/
-
-FLDCVisitManager/.vs/
-
-FLDCVisitManager/FLDCVisitManager/bin/
-
 FLDCVisitManager/FLDCVisitManager.Backend/.config/
 
-FLDCVisitManager/FLDCVisitManager.Backend/bin/Debug/netcoreapp3.1/
+FLDCVisitManager/FLDCVisitManager.Backend/obj/*
 
-FLDCVisitManager/FLDCVisitManager.Backend/obj/Debug/netcoreapp3.1/
+FLDCVisitManager/FLDCVisitManager.CMSDataLayar/obj/*
 
-FLDCVisitManager/FLDCVisitManager.Backend/obj/
-
-FLDCVisitManager/FLDCVisitManager.CMSDataLayar/obj/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCVisitManager.CMSDataLayar/obj/
-
-FLDCVisitManager/FLDCVisitManager.CMSDataLayar/bin/Debug/netcoreapp3.1/
+FLDCVisitManager/FLDCVisitManager.CMSDataLayar/bin/*
 
 FLDCVisitManager/FLDCVisitManager.DataLayer/.vs/
 
-FLDCVisitManager/FLDCVisitManager.DataLayer/obj/Debug/netcoreapp3.1/
-
-FLDCVisitManager/FLDCVisitManager.DataLayer/obj/
+FLDCVisitManager/FLDCVisitManager.DataLayer/obj/*
 
 FLDCVisitManager/FLDCVisitManager/.config/
 
-FLDCVisitManager/FLDCVisitManager.DataLayer/bin/Debug/netcoreapp3.1/
+FLDCVisitManager/FLDCVisitManager.DataLayer/bin/*
+
+FLDCVisitManager/FLDCVisitManager.Backend/bin/*
+
+FLDCVisitManager/.vs/FLDCVisitManager/DesignTimeBuild/
+
+FLDCVisitManager/.vs/FLDCVisitManager/v16/
+
+FLDCVisitManager/FLDCBackend.Test/obj/*
