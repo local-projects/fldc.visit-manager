@@ -54,7 +54,7 @@ namespace FLDCVisitManager.Controllers
         }
 
         [Route("cpLamp")]
-        [HttpGet]
+        [HttpPost]
         public void CollectionPointLamp([FromBody]CPLampIncomingRequest req)//()
         {
             //var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };

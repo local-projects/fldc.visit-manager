@@ -38,8 +38,8 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<CollectionPoint> GetCollectionPointDataById(string cpId)
         {
-            var queryDictionary = new Dictionary<string, string>();
-            CreateFieldDictonary("pointID/iv", cpId, queryDictionary);
+            var queryDictionary = new Dictionary<string, object>();
+            CreateFieldDictonary("data/pointID/iv", cpId, queryDictionary);
             var query = GetQuery(queryDictionary);
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
@@ -52,7 +52,7 @@ namespace FLDCVisitManager.CMSDataLayar
             return data.Items.FirstOrDefault();
         }
 
-        private void CreateFieldDictonary(string field, string value, Dictionary<string, string> queryFields)
+        private void CreateFieldDictonary(string field, object value, Dictionary<string, object> queryFields)
         {
             queryFields.Add(field, value);
         }
@@ -104,13 +104,13 @@ namespace FLDCVisitManager.CMSDataLayar
             var collectabileAssets = new CollectionPointAssets();
             if (!string.IsNullOrEmpty(iv) || dateLastTaken != null || shopify)
             {
-                var queryDictionary = new Dictionary<string, string>();
+                var queryDictionary = new Dictionary<string, object>();
                 if (!string.IsNullOrEmpty(iv))
                     CreateFieldDictonary("id", iv, queryDictionary);
                 if (dateLastTaken != null)
                     CreateFieldDictonary("lastModified", dateLastTaken.ToString(), queryDictionary);
                 if (shopify)
-                    CreateFieldDictonary("data/ShowInShopify/iv", "true", queryDictionary);
+                    CreateFieldDictonary("data/ShowInShopify/iv", true, queryDictionary);
                 query = GetQuery(queryDictionary);
             }
             collectabileAssets.ImageAssets = await GetImageAssets(query);
@@ -131,15 +131,34 @@ namespace FLDCVisitManager.CMSDataLayar
             return quoteAssets.Items;
         }
 
-        public ContentQuery GetQuery(Dictionary<string, string> fieldValuePair)
+        public ContentQuery GetQuery(Dictionary<string, object> fieldValuePair)
         {
             string filter = string.Empty;
             foreach (var pair in fieldValuePair.Select((Entry, Index) => new { Entry, Index }))
             {
                 if (pair.Index == 0)
-                    filter = $"{pair.Entry.Key} eq {pair.Entry.Value}";
+                {
+                    if(pair.Entry.Value is string)
+                    {
+                        filter = $"{pair.Entry.Key} eq '{pair.Entry.Value}'";
+                    }
+                    else
+                    {
+                        filter = $"{pair.Entry.Key} eq {pair.Entry.Value.ToString().ToLower()}";
+                    }
+                }
                 else
-                    filter += $"&& { pair.Entry.Key} eq { pair.Entry.Value}";
+                {
+                    if (pair.Entry.Value is string)
+                    {
+                        filter += $"&& { pair.Entry.Key} eq '{ pair.Entry.Value}'";
+                    }
+                    else
+                    {
+                        filter += $"&& { pair.Entry.Key} eq { pair.Entry.Value}";
+                    }
+                }
+
             }
             return new ContentQuery
             {

@@ -53,6 +53,6 @@ namespace FLDCVisitManager.CMSDataLayar.DTO
     public partial class PointId
     {
         [JsonProperty("iv")]
-        public int Iv { get; set; }
+        public string Iv { get; set; }
     }
 }
