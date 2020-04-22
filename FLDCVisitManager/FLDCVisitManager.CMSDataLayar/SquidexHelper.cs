@@ -40,15 +40,15 @@ namespace FLDCVisitManager.CMSDataLayar
         {
             var queryDictionary = new Dictionary<string, string>();
             CreateFieldDictonary("pointID/iv", cpId, queryDictionary);
-            var query = GetQuery(queryDictionary); 
+            var query = GetQuery(queryDictionary);
             var data = await collectionPointsData.GetAsync(query);
             var cpResult = data.Items.FirstOrDefault();
             if (cpResult.Data.TriggerAnimation != null)
                 cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
             if (cpResult.Data.SleepAnimation != null)
                 cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
-/*            if (cpResult.Data.CollectionAssets != null)
-                await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);*/
+            /*            if (cpResult.Data.CollectionAssets != null)
+                            await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);*/
             return data.Items.FirstOrDefault();
         }
 
@@ -98,52 +98,37 @@ namespace FLDCVisitManager.CMSDataLayar
             }
             return null;
         }
-        public async Task<CollectionPointAssets> GetAllCollectibleAssets(DateTime? dateLastTaken)
+        public async Task<CollectionPointAssets> GetAllCollectibleAssets(bool shopify, DateTime? dateLastTaken, string iv = null)
         {
+            ContentQuery query = null;
             var collectabileAssets = new CollectionPointAssets();
-            collectabileAssets.ImageAssets = await GetImageAssets(dateLastTaken);
-            collectabileAssets.QuoteAssets = await GetQuoteAssets(dateLastTaken);
-            return collectabileAssets;
-        }
-
-        public async Task<List<ImageAsset>> GetImageAssets(DateTime? dateLastTaken, string iv = null)
-        {
-            if (!string.IsNullOrEmpty(iv) || dateLastTaken != null)
+            if (!string.IsNullOrEmpty(iv) || dateLastTaken != null || shopify)
             {
                 var queryDictionary = new Dictionary<string, string>();
-                if (string.IsNullOrEmpty(iv))
-                    CreateFieldDictonary("id", iv, queryDictionary);
-                if(dateLastTaken != null)
-                    CreateFieldDictonary("lastModified", dateLastTaken.ToString(), queryDictionary);
-                var query = GetQuery(queryDictionary);
-                var imageAssets = await cpImageAsset.GetAsync(query);
-                return imageAssets.Items;
-            }
-            else
-            {
-                var imageAssets = await cpImageAsset.GetAsync();
-                return imageAssets.Items;
-            }
-        }
-
-        public async Task<List<QuoteAsset>> GetQuoteAssets(DateTime? dateLastTaken, string iv = null)
-        {
-            if (!string.IsNullOrEmpty(iv) || dateLastTaken != null)
-            {
-                var queryDictionary = new Dictionary<string, string>();
-                if (string.IsNullOrEmpty(iv))
+                if (!string.IsNullOrEmpty(iv))
                     CreateFieldDictonary("id", iv, queryDictionary);
                 if (dateLastTaken != null)
                     CreateFieldDictonary("lastModified", dateLastTaken.ToString(), queryDictionary);
-                var query = GetQuery(queryDictionary);
-                var quoteAssets = await cpQuoteAsset.GetAsync(query);
-                return quoteAssets.Items;
+                if (shopify)
+                    CreateFieldDictonary("data/ShowInShopify/iv", "true", queryDictionary);
+                query = GetQuery(queryDictionary);
             }
-            else
-            {
-                var quoteAssets = await cpQuoteAsset.GetAsync();
-                return quoteAssets.Items;
-            }
+            collectabileAssets.ImageAssets = await GetImageAssets(query);
+            collectabileAssets.QuoteAssets = await GetQuoteAssets(query);
+            return collectabileAssets;
+        }
+
+        public async Task<List<ImageAsset>> GetImageAssets(ContentQuery query)
+        {
+            var imageAssets = await cpImageAsset.GetAsync(query);
+            return imageAssets.Items;
+
+        }
+
+        public async Task<List<QuoteAsset>> GetQuoteAssets(ContentQuery query)
+        {
+            var quoteAssets = await cpQuoteAsset.GetAsync(query);
+            return quoteAssets.Items;
         }
 
         public ContentQuery GetQuery(Dictionary<string, string> fieldValuePair)
@@ -152,9 +137,9 @@ namespace FLDCVisitManager.CMSDataLayar
             foreach (var pair in fieldValuePair.Select((Entry, Index) => new { Entry, Index }))
             {
                 if (pair.Index == 0)
-                    filter = $"data/{pair.Entry.Key} eq {pair.Entry.Value}";
+                    filter = $"{pair.Entry.Key} eq {pair.Entry.Value}";
                 else
-                    filter += $"&& data/{ pair.Entry.Key} eq { pair.Entry.Value}";
+                    filter += $"&& { pair.Entry.Key} eq { pair.Entry.Value}";
             }
             return new ContentQuery
             {

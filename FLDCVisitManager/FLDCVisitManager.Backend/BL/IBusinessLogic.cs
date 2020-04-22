@@ -14,6 +14,6 @@ namespace FLDCVisitManagerBackend.BL
         ResponseResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq);
         ResponseResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req);
         FTPDetails GetFirmwareFtpDetails();
-        Task<List<CollectibleItem>> GetAllCollectibleItems(DateTime? dateLastTaken);
+        Task<List<CollectibleItem>> GetAllCollectibleItems(bool shopify, DateTime? dateLastTaken);
     }
 }

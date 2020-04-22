@@ -12,6 +12,6 @@ namespace FLDCVisitManager.CMSDataLayar
         Task<CollectionPoint> GetCollectionPointDataById(string cpId);
         void ConnectToCMS(AppOptions appOptions);
         Task<CollectionPointAssets> GetCollectionAssets(List<string> iv);
-        Task<CollectionPointAssets> GetAllCollectibleAssets(DateTime? dateLastTaken);
+        Task<CollectionPointAssets> GetAllCollectibleAssets(bool shopify, DateTime? dateLastTaken, string iv = null);
     }
 }

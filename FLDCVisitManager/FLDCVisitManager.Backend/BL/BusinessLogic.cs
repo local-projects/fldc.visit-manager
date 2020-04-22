@@ -154,9 +154,9 @@ namespace FLDCVisitManagerBackend.BL
             return _dBManager.GetFirmwareFtpDetails();
         }
 
-        public async Task<List<CollectibleItem>> GetAllCollectibleItems(DateTime? dateLastTaken)
+        public async Task<List<CollectibleItem>> GetAllCollectibleItems(bool shopify, DateTime? dateLastTaken)
         {
-            var allAssets = await _cmsDataHelper.GetAllCollectibleAssets(dateLastTaken);
+            var allAssets = await _cmsDataHelper.GetAllCollectibleAssets(shopify, dateLastTaken);
             return ConvertAssetsToCollectibleItems(allAssets);
         }
     }

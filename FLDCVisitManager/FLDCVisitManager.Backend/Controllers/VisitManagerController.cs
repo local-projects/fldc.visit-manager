@@ -39,9 +39,9 @@ namespace FLDCVisitManager.Controllers
 
         [Route("getAllCollectabileItems")]
         [HttpGet]
-        public async Task<IActionResult> GetAllCollectabileItems(DateTime? dateLastTaken)
+        public async Task<IActionResult> GetAllCollectabileItems(bool shopify, DateTime? dateLastTaken)
         {
-            var allAssets = await _businessLogic.GetAllCollectibleItems(dateLastTaken);
+            var allAssets = await _businessLogic.GetAllCollectibleItems(shopify, dateLastTaken);
             return new JsonResult(allAssets);
         }
 
