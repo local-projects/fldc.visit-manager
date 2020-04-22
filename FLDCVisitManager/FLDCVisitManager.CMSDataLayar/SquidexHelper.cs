@@ -41,15 +41,21 @@ namespace FLDCVisitManager.CMSDataLayar
             var queryDictionary = new Dictionary<string, object>();
             CreateFieldDictonary("data/pointID/iv", cpId, queryDictionary);
             var query = GetQuery(queryDictionary);
-            var data = await collectionPointsData.GetAsync(query);
-            var cpResult = data.Items.FirstOrDefault();
-            if (cpResult.Data.TriggerAnimation != null)
-                cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
-            if (cpResult.Data.SleepAnimation != null)
-                cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
-            /*            if (cpResult.Data.CollectionAssets != null)
-                            await GetCollectionAsset(cpResult.Data.CollectionAssets.Iv, cpResult);*/
-            return data.Items.FirstOrDefault();
+            try
+            {
+                var data = await collectionPointsData.GetAsync(query);
+                var cpResult = data.Items.FirstOrDefault();
+                if (cpResult.Data.TriggerAnimation != null)
+                    cpResult.Data.TriggerLedColorsSeq = await GetLedColors(cpResult.Data.TriggerAnimation.Iv.FirstOrDefault());
+                if (cpResult.Data.SleepAnimation != null)
+                    cpResult.Data.SleepLedColorsSeq = await GetLedColors(cpResult.Data.SleepAnimation.Iv.FirstOrDefault());
+                return data.Items.FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                /// TODO - add log error
+                return new CollectionPoint();
+            }
         }
 
         private void CreateFieldDictonary(string field, object value, Dictionary<string, object> queryFields)
@@ -120,15 +126,32 @@ namespace FLDCVisitManager.CMSDataLayar
 
         public async Task<List<ImageAsset>> GetImageAssets(ContentQuery query)
         {
-            var imageAssets = await cpImageAsset.GetAsync(query);
-            return imageAssets.Items;
+            try
+            {
+                var imageAssets = await cpImageAsset.GetAsync(query);
+                return imageAssets.Items;
+            }
+            catch(Exception ex)
+            {
+                ///TODO - add logger for the exception
+                return Enumerable.Empty<ImageAsset>().ToList();
+            }
 
         }
 
         public async Task<List<QuoteAsset>> GetQuoteAssets(ContentQuery query)
         {
-            var quoteAssets = await cpQuoteAsset.GetAsync(query);
-            return quoteAssets.Items;
+            try
+            {
+                var quoteAssets = await cpQuoteAsset.GetAsync(query);
+                return quoteAssets.Items;
+            }
+            catch(Exception ex)
+            {
+                ///TODO
+                ///write ex to log file
+                return Enumerable.Empty<QuoteAsset>().ToList();
+            }
         }
 
         public ContentQuery GetQuery(Dictionary<string, object> fieldValuePair)
