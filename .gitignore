@@ -21,3 +21,5 @@ FLDCVisitManager/.vs/FLDCVisitManager/DesignTimeBuild/
 FLDCVisitManager/.vs/FLDCVisitManager/v16/
 
 FLDCVisitManager/FLDCBackend.Test/obj/*
+
+FLDCVisitManager/FLDCBackend.Test/bin/*

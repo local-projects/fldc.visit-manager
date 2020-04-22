@@ -13,6 +13,7 @@ using DBManager;
 using Microsoft.Extensions.Configuration;
 using System;
 using FLDCVisitManagerBackend.Helpers;
+using Xunit.Extensions;
 
 namespace FLDCBackend.Test
 {
@@ -61,86 +62,47 @@ namespace FLDCBackend.Test
             Assert.Equal(expected, result);
         }
 
-        [Fact]
-        public void ConvertAssetsToIdList_CPAssetsListShouldReturnListOfIds()
+        [Theory]
+        [MemberData(nameof(TestDataGenerator.GetCPToIdListData), MemberType = typeof(TestDataGenerator))]
+        public void ConvertAssetsToIdList_CPAssetsListShouldReturnListOfIds(CollectionPointAssets value, List<CollectibleItemReference> expected)
         {
-            CollectionPointAssets value = new CollectionPointAssets();
-            GetCPAssets(value);
-            List<CollectibleItemReference> expected = new List<CollectibleItemReference>();
-            GetExpectedAssetIdList(expected);
+            /*            var value = GetCPAssets();
+                        var expected = GetExpectedAssetIdList();*/
             var result = bl.ConvertAssetsToIdList(value);
-            Assert.True(result.Count == 1);
-            Assert.Equal(expected.FirstOrDefault().AssetId, result.FirstOrDefault().AssetId);
-            Assert.Equal(expected.FirstOrDefault().CollectabileId, result.FirstOrDefault().CollectabileId);
-            Assert.Equal(expected.FirstOrDefault().CollectabileType, result.FirstOrDefault().CollectabileType);
+            Assert.True(result.Count == expected.Count);
+            Assert.Equal(expected.FirstOrDefault()?.AssetId, result.FirstOrDefault()?.AssetId);
+            Assert.Equal(expected.FirstOrDefault()?.CollectabileId, result.FirstOrDefault()?.CollectabileId);
+            Assert.Equal(expected.FirstOrDefault()?.CollectabileType, result.FirstOrDefault()?.CollectabileType);
         }
 
-        [Fact]
-        public void ConvertAssetsToCollectibleItems_CPAssetsListShouldReturnListOfCollectibleItems()
+        [Theory]
+        [MemberData(nameof(TestDataGenerator.GetCPToAssetListData), MemberType = typeof(TestDataGenerator))]
+        public void ConvertAssetsToCollectibleItems_CPAssetsListShouldReturnListOfCollectibleItems(CollectionPointAssets value, List<CollectibleItem> expected)
         {
-            CollectionPointAssets value = new CollectionPointAssets();
-            GetCPAssets(value);
-            List<CollectibleItem> expected = new List<CollectibleItem>();
-            GetExpectedCollectabileItems(expected);
+            /*            var value = GetCPAssets();
+                        List<CollectibleItem> expected = new List<CollectibleItem>();
+                        GetExpectedCollectabileItems(expected);*/
             var result = bl.ConvertAssetsToCollectibleItems(value);
-            Assert.True(result.Count == 1);
-            Assert.Equal(expected.FirstOrDefault().Id, result.FirstOrDefault().Id);
-            Assert.Equal(expected.FirstOrDefault().Caption, result.FirstOrDefault().Caption);
-            Assert.Equal(expected.FirstOrDefault().Credit, result.FirstOrDefault().Credit);
-            Assert.Equal(expected.FirstOrDefault().IconUrl, result.FirstOrDefault().IconUrl);
-            Assert.Equal(expected.FirstOrDefault().ImageUrl, result.FirstOrDefault().ImageUrl);
-            foreach(var item in result.FirstOrDefault().ValuePairs)
+            Assert.True(result.Count == expected.Count);
+            Assert.Equal(expected.FirstOrDefault()?.Id, result.FirstOrDefault()?.Id);
+            Assert.Equal(expected.FirstOrDefault()?.Caption, result.FirstOrDefault()?.Caption);
+            Assert.Equal(expected.FirstOrDefault()?.Credit, result.FirstOrDefault()?.Credit);
+            Assert.Equal(expected.FirstOrDefault()?.IconUrl, result.FirstOrDefault()?.IconUrl);
+            Assert.Equal(expected.FirstOrDefault()?.ImageUrl, result.FirstOrDefault()?.ImageUrl);
+            if (result.Count > 0)
             {
-                Assert.Equal(expected.FirstOrDefault().ValuePairs[item.Key], item.Value);
-            }
-        }
-
-        private void GetExpectedCollectabileItems(List<CollectibleItem> expected)
-        {
-            var item = new CollectibleItem()
-            {
-                Id = "c8ad4314-fd8b-4200-994c-366bfd87ae12",
-                Credit = "Thank you tamar",
-                Caption = "Tamar test",
-                IconUrl = null,
-                ValuePairs = new Dictionary<string, int>() { { "hope", 1 }, { "Fait", 2 }, { "Unity", 3 } },
-                ImageUrl = "https://cloud.squidex.io/api/assets/fldc-prod/c8ad4314-fd8b-4200-994c-366bfd87ae13"
-            };
-            expected.Add(item);
-        }
-
-        private void GetExpectedAssetIdList(List<CollectibleItemReference> expected)
-        {
-            expected.Add(new CollectibleItemReference()
-            {
-                AssetId = "c8ad4314-fd8b-4200-994c-366bfd87ae13",
-                CollectabileId = "c8ad4314-fd8b-4200-994c-366bfd87ae12",
-                CollectabileType = "Image"
-            });
-        }
-
-        private void GetCPAssets(CollectionPointAssets value)
-        {
-            value.ImageAssets = new List<ImageAsset>();
-            value.QuoteAssets = new List<QuoteAsset>();
-            value.ImageAssets.Add(new ImageAsset()
-            {
-                Id = new System.Guid("c8ad4314-fd8b-4200-994c-366bfd87ae12"),
-                Data =
+                foreach (var item in result.Select((x, i) => new { Value = x, Index = i }) )
                 {
-                    Caption = new Caption() { Iv = "Tamar test" },
-                    Credit = new Caption() { Iv = "Thank you tamar" },
-                    ImageAsset = new ImageAssetClass() { Iv = new List<string>() { "c8ad4314-fd8b-4200-994c-366bfd87ae13" } },
-                    Values = new Values()
+                    if(item.Value?.ValuePairs != null)
                     {
-                        Iv = new List<Iv>() {   new Iv() { StringValue = "hope", ValueNumber = "1" },
-                                                new Iv() { StringValue = "Fait", ValueNumber = "2" },
-                                                new Iv() { StringValue = "Unity", ValueNumber = "3" }
-                    }
+                        foreach (var pair in item.Value?.ValuePairs)
+                        {
+                            Assert.Equal(expected[item.Index]?.ValuePairs[pair.Key], pair.Value);
+                        }
+
                     }
                 }
-
-            });
+            }
         }
 
         [Fact]
