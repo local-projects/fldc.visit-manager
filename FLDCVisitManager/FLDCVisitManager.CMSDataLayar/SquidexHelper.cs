@@ -144,7 +144,7 @@ namespace FLDCVisitManager.CMSDataLayar
                     }
                     else
                     {
-                        filter = $"{pair.Entry.Key} eq {pair.Entry.Value.ToString().ToLower()}";
+                        filter = $"{pair.Entry.Key} eq {pair.Entry.Value.ToString().ToLower()}"; //bool converted to 'True' instead of 'true'
                     }
                 }
                 else
@@ -155,10 +155,9 @@ namespace FLDCVisitManager.CMSDataLayar
                     }
                     else
                     {
-                        filter += $"&& { pair.Entry.Key} eq { pair.Entry.Value}";
+                        filter += $"&& { pair.Entry.Key} eq { pair.Entry.Value.ToString().ToLower()}"; //bool converted to 'True' instead of 'true'
                     }
                 }
-
             }
             return new ContentQuery
             {
