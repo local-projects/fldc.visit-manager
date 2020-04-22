@@ -104,11 +104,5 @@ namespace FLDCBackend.Test
                 }
             }
         }
-
-        [Fact]
-        public void SerializeObjectToJson_SimpleObjectShouldReturnObjectString()
-        {
-
-        }
     }
 }

@@ -118,13 +118,13 @@ namespace FLDCVisitManagerBackend.BL
             var result = await client.PostAsync(cpUrl, data);
         }
 
+
         public string SerializeObjectToJson<T>(T objectToSerialize)
         {
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             return JsonConvert.SerializeObject(objectToSerialize, serializerSettings);
         }
-
         public async void CollectionPointLamp(string cpId, string lampId)
         {
             var cpDetails = await _cmsDataHelper.GetCollectionPointDataById(cpId);
