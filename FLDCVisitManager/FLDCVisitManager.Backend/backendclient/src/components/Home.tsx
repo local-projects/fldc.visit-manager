@@ -19,7 +19,7 @@ class Home extends React.Component {
                         console.log(error);
                     }
                 )
-        }, 5000);
+        }, 180000);
     }
 
     render() {
