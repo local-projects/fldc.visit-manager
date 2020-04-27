@@ -7,4 +7,9 @@
     <ActiveDebugProfile>FLDCVisitManager</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>LPDeploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="backendclient\src\components\Home.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
 </Project>

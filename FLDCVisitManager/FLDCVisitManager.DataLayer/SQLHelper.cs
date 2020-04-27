@@ -114,5 +114,24 @@ namespace DBManager
             }
             return result;
         }
+        
+        public bool CPLampConnectedValidate()
+        {
+            string sql = "SELECT TOP 1 [VisitorId] from [VisitorToCollection] where DateCreated > dateadd(MINUTE, -5, getdate())";
+            try
+            {
+                using (var conn = OpenConnection())
+                {
+                    var result = conn.Query(sql).FirstOrDefault();
+                    if (Convert.ToInt32(result) > 0)
+                        return true;
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

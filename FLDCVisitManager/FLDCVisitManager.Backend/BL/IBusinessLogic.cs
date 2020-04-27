@@ -15,5 +15,6 @@ namespace FLDCVisitManagerBackend.BL
         ResponseResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req);
         FTPDetails GetFirmwareFtpDetails();
         Task<List<CollectibleItem>> GetAllCollectibleItems(bool shopify, DateTime? dateLastTaken);
+        bool CPLampConnectedValidate();
     }
 }

@@ -159,5 +159,10 @@ namespace FLDCVisitManagerBackend.BL
             var allAssets = await _cmsDataHelper.GetAllCollectibleAssets(shopify, dateLastTaken);
             return ConvertAssetsToCollectibleItems(allAssets);
         }
+
+        public bool CPLampConnectedValidate()
+        {
+            return _dBManager.CPLampConnectedValidate();
+        }
     }
 }

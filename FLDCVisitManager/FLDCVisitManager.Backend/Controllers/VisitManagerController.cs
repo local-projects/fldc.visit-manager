@@ -55,10 +55,17 @@ namespace FLDCVisitManager.Controllers
 
         [Route("cpLamp")]
         [HttpPost]
-        public void CollectionPointLamp([FromBody]CPLampIncomingRequest req)//()
+        public async void CollectionPointLamp([FromBody]CPLampIncomingRequest req)//()
         {
             //var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-            _businessLogic.CollectionPointLamp(req.Id, req.LampId);
+             _businessLogic.CollectionPointLamp(req.Id, req.LampId);
+        }
+
+        [Route("cpLampConnected")]
+        [HttpGet]
+        public IActionResult CPLampConnectedValidate()
+        {
+            return new JsonResult(_businessLogic.CPLampConnectedValidate());
         }
 
         [Route("cd_lamp")]
@@ -73,6 +80,7 @@ namespace FLDCVisitManager.Controllers
         }
 
         [Route("hello")]
+        [HttpPost]
         public IActionResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req)
         {
             var response = _businessLogic.UpdateCollectionPointHeartBeat(req);
