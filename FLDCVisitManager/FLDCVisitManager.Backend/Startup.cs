@@ -8,6 +8,8 @@ using AutoMapper;
 using FLDCVisitManager.CMSDataLayar;
 using DBManager;
 using FLDCVisitManagerBackend.BL;
+using System.IO;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace FLDCVisitManager
 {
@@ -35,6 +37,11 @@ namespace FLDCVisitManager
             services.AddTransient<ICMSDataHelper, SquidexHelper>();
             services.AddTransient<IDBManager, SQLHelper>();
             services.AddControllers();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "backendclient/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +61,20 @@ namespace FLDCVisitManager
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+            app.UseMvc();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "backendclient");
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
