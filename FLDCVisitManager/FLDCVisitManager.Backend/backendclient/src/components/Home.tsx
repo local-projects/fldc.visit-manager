@@ -1,11 +1,20 @@
 ﻿import React, { Component } from 'react';
 import logo from '../@types/logo.svg';
 import { request } from 'https';
+import { relative } from 'path';
 
-class Home extends React.Component {
+class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }>  {
+
+    constructor(props : any) {
+        super(props);
+        this.state = {
+            cpTriggered: false,
+            lampId : ""
+        };
+    }
+
     componentDidMount() {
         const url = 'http://192.168.50.186';
-        var cpTriggered = false;
         setInterval(() => { //Start the timer
             fetch(url + '/cpLampConnected', {
                 method: "Get"
@@ -13,32 +22,35 @@ class Home extends React.Component {
                 .then(res => res.json())
                 .then((result) => {
                     console.log(result);
-                    cpTriggered = result;
+                    this.setState({
+                        cpTriggered: result == null || result == "" ? false : true,
+                        lampId: result
+                    });
                 },
                     (error) => {
                         console.log(error);
                     }
                 )
-        }, 180000);
+        }, 60000);
     }
 
     render() {
+        let className = 'lamp';
+        if (this.state.cpTriggered) {
+            className += ' lamp-on';
+        }
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <p>
-                        Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-        </a>
-                </header>
+                <div id="lamp">
+                    <div className={className}>
+                        <div className="gonna-give-light"></div>
+                    </div>
+                    <div style={{ marginTop: "70px", position: "relative" }}>
+                        {this.state.cpTriggered == true ? (
+                            <h1>Lamp id {this.state.lampId}</h1>
+                        ) : null}
+                    </div>
+                </div>
             </div>
         );
     }

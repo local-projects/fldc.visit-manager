@@ -14,6 +14,6 @@ namespace DBManager
         ResponseResult ChargerDockerLampRecognized(CDLampData cPLampData);
         FTPDetails GetFirmwareFtpDetails();
         List<string> GetVisitorCollectibleItems(string lampId);
-        bool CPLampConnectedValidate();
+        string CPLampConnectedValidate();
     }
 }

@@ -160,7 +160,7 @@ namespace FLDCVisitManagerBackend.BL
             return ConvertAssetsToCollectibleItems(allAssets);
         }
 
-        public bool CPLampConnectedValidate()
+        public string CPLampConnectedValidate()
         {
             return _dBManager.CPLampConnectedValidate();
         }

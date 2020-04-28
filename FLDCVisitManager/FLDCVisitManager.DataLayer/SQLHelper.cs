@@ -115,17 +115,22 @@ namespace DBManager
             return result;
         }
         
-        public bool CPLampConnectedValidate()
+        public string CPLampConnectedValidate()
         {
-            string sql = "SELECT TOP 1 [VisitorId] from [VisitorToCollection] where DateCreated > dateadd(MINUTE, -5, getdate())";
+            string sql = @"SELECT TOP 1 
+                           Lamps.Id
+                            from[VisitorToCollection]
+                            inner join Visitors on Visitors.Id = [VisitorId]
+                            inner join Lamps on Lamps.id = LampId
+                            where[VisitorToCollection].DateCreated > dateadd(MINUTE, -1, getdate())";
             try
             {
                 using (var conn = OpenConnection())
                 {
-                    var result = conn.Query(sql).FirstOrDefault();
-                    if (Convert.ToInt32(result) > 0)
-                        return true;
-                    return false;
+                    var result = conn.Query<string>(sql).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(result))
+                        return result;
+                    return string.Empty;
                 }
             }
             catch (Exception ex)
