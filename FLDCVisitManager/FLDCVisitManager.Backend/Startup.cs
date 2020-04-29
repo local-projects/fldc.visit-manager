@@ -10,6 +10,7 @@ using DBManager;
 using FLDCVisitManagerBackend.BL;
 using System.IO;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using FLDCVisitManager.Backend.Hubs;
 
 namespace FLDCVisitManager
 {
@@ -42,6 +43,7 @@ namespace FLDCVisitManager
             {
                 configuration.RootPath = "backendclient/build";
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +63,7 @@ namespace FLDCVisitManager
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ClientHub>("/clientHub");
             });
 
             app.UseHttpsRedirection();

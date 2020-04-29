@@ -25,3 +25,5 @@ FLDCVisitManager/FLDCBackend.Test/obj/*
 FLDCVisitManager/FLDCBackend.Test/bin/*
 
 *.user
+
+FLDCVisitManager/FLDCVisitManager.Backend/node_modules/*

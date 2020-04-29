@@ -1,7 +1,4 @@
 ﻿import React, { Component } from 'react';
-import logo from '../@types/logo.svg';
-import { request } from 'https';
-import { relative } from 'path';
 
 class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }>  {
 
