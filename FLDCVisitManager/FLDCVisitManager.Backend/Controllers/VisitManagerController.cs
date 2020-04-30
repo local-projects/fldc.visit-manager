@@ -18,6 +18,8 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.AspNetCore.SignalR;
+using FLDCVisitManager.Backend.Hubs;
 
 namespace FLDCVisitManager.Controllers
 {
@@ -28,13 +30,15 @@ namespace FLDCVisitManager.Controllers
 
         private readonly ILogger<VisitManagerController> _logger;
         private static IBusinessLogic _businessLogic;
+        private IHubContext<ClientHub> HubContext;
 
         public VisitManagerController(//ILogger<VisitManagerController> logger,
             IMapper mapper, ICMSDataHelper cmsDataHelper,
-            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DatabaseOptions> connectionString)
+            IOptions<AppOptionsConfiguration> cmsOptions, IDBManager dBManager, IOptions<DatabaseOptions> connectionString, IHubContext<ClientHub> hubcontext)
         {
             _logger = NullLogger<VisitManagerController>.Instance;//logger;
             _businessLogic = new BusinessLogic(mapper, cmsDataHelper, cmsOptions.Value, dBManager, connectionString.Value);
+            HubContext = hubcontext;
         }
 
         [Route("getAllCollectabileItems")]
@@ -55,10 +59,12 @@ namespace FLDCVisitManager.Controllers
 
         [Route("cpLamp")]
         [HttpPost]
-        public async void CollectionPointLamp([FromBody]CPLampIncomingRequest req)//()
+        public async void CollectionPointLam([FromBody]CPLampIncomingRequest req) //()
         {
             //var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
-             _businessLogic.CollectionPointLamp(req.Id, req.LampId);
+            var response = await _businessLogic.CollectionPointLamp(req.Id, req.LampId);
+            string beaconsId = "1";
+            await HubContext.Clients.All.SendAsync("CPLamp", beaconsId, req.LampId);
         }
 
         [Route("cpLampConnected")]

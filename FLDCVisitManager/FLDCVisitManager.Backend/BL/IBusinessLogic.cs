@@ -3,6 +3,7 @@ using FLDCVisitManagerBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FLDCVisitManagerBackend.BL
@@ -10,7 +11,7 @@ namespace FLDCVisitManagerBackend.BL
     public interface IBusinessLogic
     {
         Task<List<CollectibleItemReference>> GetVisitorCollectibleItems(string lampId);
-        void CollectionPointLamp(string cpId, string lampId);
+        Task<HttpStatusCode> CollectionPointLamp(string cpId, string lampId);
         ResponseResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq);
         ResponseResult UpdateCollectionPointHeartBeat(CPHeartBeatIncomingRequestParams req);
         FTPDetails GetFirmwareFtpDetails();

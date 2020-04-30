@@ -13,6 +13,7 @@ using FLDCVisitManagerBackend.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net;
 
 namespace FLDCVisitManagerBackend.BL
 {
@@ -109,13 +110,14 @@ namespace FLDCVisitManagerBackend.BL
             return $"{_cmsOptions.Url}/api/assets/{_cmsOptions.AppName}/{hashId}";
         }
 
-        public async void SetLEDColors(CPRequestParams cpDetails)
+        public async Task<HttpStatusCode> SetLEDColors(CPRequestParams cpDetails)
         {
             var cpUrl = new Uri(cpDetails.CpIp + "/setLedColorSequence");
             using var client = new HttpClient();
             var json = SerializeObjectToJson<LEDRequestParams>(cpDetails.TriggerAnimation);// JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(cpUrl, data);
+            return result.StatusCode;
         }
 
 
@@ -125,18 +127,23 @@ namespace FLDCVisitManagerBackend.BL
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             return JsonConvert.SerializeObject(objectToSerialize, serializerSettings);
         }
-        public async void CollectionPointLamp(string cpId, string lampId)
+        public async Task<HttpStatusCode> CollectionPointLamp(string cpId, string lampId)
         {
+            var response = HttpStatusCode.BadRequest;
             var cpDetails = await _cmsDataHelper.GetCollectionPointDataById(cpId);
-            var cpLampDetails = new CPLampData()
+            if (cpDetails != null)
             {
-                CPId = cpId,
-                LampId = lampId,
-                AssetId = cpDetails.Data.CollectionAssets.Iv.FirstOrDefault() //TODO - for now 1 option
-            };
-            _dBManager.UpdateCollectionPointLampInteraction(cpLampDetails);
-            var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
-            SetLEDColors(cpRequest);
+                var cpLampDetails = new CPLampData()
+                {
+                    CPId = cpId,
+                    LampId = lampId,
+                    AssetId = cpDetails.Data.CollectionAssets.Iv.FirstOrDefault() //TODO - for now 1 option
+                };
+                _dBManager.UpdateCollectionPointLampInteraction(cpLampDetails);
+                var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
+                response = await SetLEDColors(cpRequest);
+            }
+            return response;
         }
 
         public ResponseResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)

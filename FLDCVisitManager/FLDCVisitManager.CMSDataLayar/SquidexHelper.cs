@@ -54,7 +54,7 @@ namespace FLDCVisitManager.CMSDataLayar
             catch(Exception ex)
             {
                 /// TODO - add log error
-                return new CollectionPoint();
+                return null;
             }
         }
 

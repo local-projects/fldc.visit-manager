@@ -5,6 +5,26 @@ import * as signalR from "@microsoft/signalr";
 
 const SignalRClient: React.FC = () => {
 
+    var url: string = 'http://192.168.50.186';
+
+    useEffect(() => {
+        fetch(url + '/cpLamp', {
+            method: "POST",
+            mode: 'cors', // no-cors, *cors, same-origin
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: 'CP0002', lampId: '1' })
+        })
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result);
+            },
+             (error) => {
+                    console.log(error);
+                }
+            )
+    });
 
     // Builds the SignalR connection, mapping it to /chat
     const hubConnection = new signalR.HubConnectionBuilder()
@@ -23,6 +43,7 @@ const SignalRClient: React.FC = () => {
     const SignalRClientConnect: React.FC = () => {
         // Sets a client message, sent from the server
         const [clientMessage, setClientMessage] = useState<string | null>(null);
+        const [cpLampMessage, setcpLampMessage] = useState<string | null>(null);
 
         useEffect(() => {
             hubConnection.on("setClientMessage", message => {
@@ -30,7 +51,13 @@ const SignalRClient: React.FC = () => {
             });
         });
 
-        return <p>{clientMessage}</p>
+        useEffect(() => {
+            hubConnection.on("cpLamp", message => {
+                setcpLampMessage(message);
+            });
+        });
+
+        return <div><p>{clientMessage}</p> <h1>{cpLampMessage}</h1></div>
     };
 
 

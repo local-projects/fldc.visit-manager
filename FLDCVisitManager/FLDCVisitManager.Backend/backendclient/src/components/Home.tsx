@@ -10,10 +10,11 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }
             lampId : ""
         };
     }
+    timer: any = null;
 
     componentDidMount() {
         const url = 'http://192.168.50.186';
-        setInterval(() => { //Start the timer
+        this.timer = setInterval(() => { //Start the timer
             fetch(url + '/cpLampConnected', {
                 method: "Get"
             })
@@ -30,6 +31,11 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }
                     }
                 )
         }, 60000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+        this.timer = null;
     }
 
     render() {
