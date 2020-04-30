@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
 import Home from './components/Home';
+import SignalRClient from './components/SignalRClient';
 
 function App() {
     return (
-        <Home />
+        <div>
+            <Home />
+            //<SignalRClient />
+        </div>
     );
 }
 

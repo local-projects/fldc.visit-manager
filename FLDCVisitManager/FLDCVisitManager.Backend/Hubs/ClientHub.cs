@@ -8,9 +8,9 @@ namespace FLDCVisitManager.Backend.Hubs
 {
     public class ClientHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendConnectionId(string connectionId)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("setClientMessage", "A connection with ID '" + connectionId + "' has just connected");
         }
     }
 }

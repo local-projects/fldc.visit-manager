@@ -1,6 +1,6 @@
 ﻿import * as React from "react";
 import { useState, useEffect } from 'react';
-import "./App.css";
+import "../App.css";
 import * as signalR from "@microsoft/signalr";
 
 const SignalRClient: React.FC = () => {
@@ -8,7 +8,7 @@ const SignalRClient: React.FC = () => {
 
     // Builds the SignalR connection, mapping it to /chat
     const hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("/client")
+        .withUrl("/clientHub")
         .configureLogging(signalR.LogLevel.Information)
         .build();
 

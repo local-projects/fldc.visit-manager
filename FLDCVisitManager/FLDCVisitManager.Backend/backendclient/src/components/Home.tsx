@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import '../App.css'; 
 
 class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }>  {
 
