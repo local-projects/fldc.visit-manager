@@ -59,12 +59,12 @@ namespace FLDCVisitManager.Controllers
 
         [Route("cpLamp")]
         [HttpPost]
-        public async void CollectionPointLam([FromBody]CPLampIncomingRequest req) //()
+        public async void CollectionPointLamp([FromBody]CPLampIncomingRequest req) //()
         {
             //var req = new CPLampIncomingRequest() { Id = "1", LampId = "1" };
             var response = await _businessLogic.CollectionPointLamp(req.Id, req.LampId);
             string beaconsId = "1";
-            await HubContext.Clients.All.SendAsync("CPLamp", beaconsId, req.LampId);
+            await HubContext.Clients.All.SendAsync("CPLamp", new object[] { "cp in beacons id '" + beaconsId + "' we just triggered by lamp id: " + req.LampId });
         }
 
         [Route("cpLampConnected")]

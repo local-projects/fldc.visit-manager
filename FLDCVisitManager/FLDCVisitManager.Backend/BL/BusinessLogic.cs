@@ -116,8 +116,16 @@ namespace FLDCVisitManagerBackend.BL
             using var client = new HttpClient();
             var json = SerializeObjectToJson<LEDRequestParams>(cpDetails.TriggerAnimation);// JsonConvert.SerializeObject(cpDetails.TriggerAnimation, serializerSettings);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(cpUrl, data);
-            return result.StatusCode;
+            try
+            {
+                var result = await client.PostAsync(cpUrl, data);
+                return result.StatusCode;
+            }
+            catch(Exception ex)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
         }
 
 
