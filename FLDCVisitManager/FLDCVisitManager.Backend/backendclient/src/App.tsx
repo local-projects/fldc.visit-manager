@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 import Home from './components/Home';
-import SignalRClient from './components/SignalRClient';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { TriggerCPLampData, TriggerBeaconsTakeover } from './services/VisitManagerService';
+import SignalRClient from './components/SignalRClient';
 
 /*function App() {
     return (
@@ -34,7 +35,9 @@ function AppRouter() {
                 </nav>
 
                 <Route path="/" exact component={Home} />
-                <Route path="/cpLamp" component={SignalRClient} />
+                <Route path="/cpLamp" component={TriggerCPLampData} />
+                <Route path="/beaconsTakeOver" component={TriggerBeaconsTakeover} />
+                <SignalRClient />
             </div >
         </Router >);
 }

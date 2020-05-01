@@ -8,6 +8,11 @@
     <NameOfLastUsedPublishProfile>LPDeploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Update="backendclient\src\services\VisitManagerService.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
     <TypeScriptCompile Update="backendclient\src\components\SignalRClient.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
