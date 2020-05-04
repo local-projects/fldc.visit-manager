@@ -54,8 +54,6 @@ namespace FLDCVisitManager
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -66,7 +64,7 @@ namespace FLDCVisitManager
                 endpoints.MapHub<ClientHub>("/clientHub");
             });
 
-            app.UseHttpsRedirection();
+/*            app.UseHttpsRedirection();*/
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseMvc();
