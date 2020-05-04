@@ -1,19 +1,27 @@
 ﻿import React, { Component } from 'react';
 import '../App.css'; 
 
-class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }>  {
+class Home extends React.Component<{}, { cpTriggered: boolean, lampId: string, appVersion : string }>  {
 
     constructor(props : any) {
         super(props);
         this.state = {
             cpTriggered: false,
-            lampId : ""
+            lampId: "",
+            appVersion: ""
         };
     }
     timer: any = null;
 
     componentDidMount() {
         const url = 'http://192.168.50.186';
+
+        fetch(url + '/getVersionNumber').then(res => res.json()).then(result => {
+            this.setState({
+                appVersion: result
+            })
+        });
+
         this.timer = setInterval(() => { //Start the timer
             fetch(url + '/cpLampConnected', {
                 method: "Get"
@@ -30,7 +38,7 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }
                         console.log(error);
                     }
                 )
-        }, 60000);
+        }, 1000);
     }
 
     componentWillUnmount() {
@@ -46,6 +54,7 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId : string }
         return (
             <div className="App">
                 <div id="lamp">
+                    <h1>Version: {this.state.appVersion}</h1>
                     <div className={className}>
                         <div className="gonna-give-light"></div>
                     </div>

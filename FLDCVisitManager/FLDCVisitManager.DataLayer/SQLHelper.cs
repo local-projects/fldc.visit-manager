@@ -122,7 +122,7 @@ namespace DBManager
                             from[VisitorToCollection]
                             inner join Visitors on Visitors.Id = [VisitorId]
                             inner join Lamps on Lamps.id = LampId
-                            where[VisitorToCollection].DateCreated > dateadd(MINUTE, -1, getdate())";
+                            where[VisitorToCollection].DateCreated > dateadd(MINUTE, -5, getdate())";
             try
             {
                 using (var conn = OpenConnection())

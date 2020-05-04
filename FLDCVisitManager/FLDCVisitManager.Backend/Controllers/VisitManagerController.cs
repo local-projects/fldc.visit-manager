@@ -111,5 +111,11 @@ namespace FLDCVisitManager.Controllers
             var result = _businessLogic.GetFirmwareFtpDetails(); 
             return new JsonResult(result);
         }
+
+        [Route("getVersionNumber")]
+        public IActionResult GetVersionNumber()
+        {
+            return new JsonResult(GetType().Assembly.GetName().Version.ToString());
+        }
     }
 }
