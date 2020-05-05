@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MessagePack;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,8 @@ namespace FLDCVisitManager
     {
         public static void Main(string[] args)
         {
+
+            MessagePackSecurity.Active = MessagePackSecurity.UntrustedData;
             CreateHostBuilder(args).Build().Run();
         }
 

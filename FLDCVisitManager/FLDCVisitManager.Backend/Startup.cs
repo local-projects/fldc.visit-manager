@@ -11,6 +11,8 @@ using FLDCVisitManagerBackend.BL;
 using System.IO;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using FLDCVisitManager.Backend.Hubs;
+using MessagePack;
+using System.Collections.Generic;
 
 namespace FLDCVisitManager
 {
@@ -43,7 +45,16 @@ namespace FLDCVisitManager
             {
                 configuration.RootPath = "backendclient/build";
             });
-            services.AddSignalR();
+            services.AddSignalR(options => {
+                options.EnableDetailedErrors = true;
+            })
+                    .AddMessagePackProtocol(options =>
+                    {
+                        options.FormatterResolvers = new List<MessagePack.IFormatterResolver>()
+                        {
+                            MessagePack.Resolvers.StandardResolver.Instance
+                        };
+                    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

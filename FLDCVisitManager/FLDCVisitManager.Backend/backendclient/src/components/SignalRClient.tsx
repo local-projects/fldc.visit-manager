@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import "../App.css";
 import * as signalR from "@microsoft/signalr";
+import * as MsgPack from "@microsoft/signalr-protocol-msgpack";
 
 const SignalRClient: React.FC = () => {
     // Builds the SignalR connection, mapping it to /chat
     const hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("/clientHub")
+        .withUrl("/clientHub").withHubProtocol(new MsgPack.MessagePackHubProtocol())
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
