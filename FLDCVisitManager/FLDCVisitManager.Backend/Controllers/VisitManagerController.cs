@@ -113,6 +113,7 @@ namespace FLDCVisitManager.Controllers
         }
 
         [Route("getVersionNumber")]
+        [HttpGet]
         public IActionResult GetVersionNumber()
         {
             return new JsonResult(GetType().Assembly.GetName().Version.ToString());
