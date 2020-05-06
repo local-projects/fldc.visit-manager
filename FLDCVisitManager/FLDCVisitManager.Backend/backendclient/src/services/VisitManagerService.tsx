@@ -2,9 +2,10 @@
 import { useState, useEffect } from 'react';
 import SignalRClient from '../components/SignalRClient';
 
+const url = 'http://fldcapi.localprojects.com';
+//var url: string = 'http://192.168.50.186';
+
 export const TriggerCPLampData: React.FC = () => {
-    //var url: string = 'http://192.168.50.186';
-    const url = 'http://fldcapi.localprojects.com';
 
     useEffect(() => {
         fetch(url + '/cpLamp', {
@@ -31,8 +32,7 @@ export const TriggerCPLampData: React.FC = () => {
 }
 
 export const TriggerBeaconsTakeover: React.FC = () => {
-    //var url: string = 'http://192.168.50.186';
-    const url = 'http://fldcapi.localprojects.com';
+
     useEffect(() => {
         fetch(url + '/beaconsTakeOver', {
             method: "POST",
@@ -52,5 +52,29 @@ export const TriggerBeaconsTakeover: React.FC = () => {
         <div>
             <h1>Trigger Beacons Takeover</h1>
             </div>
+    )
+}
+
+export const TriggerBeaconsTakeoverOff: React.FC = () => {
+
+    useEffect(() => {
+        fetch(url + '/beaconsTakeOverOff', {
+            method: "POST",
+            mode: 'cors', // no-cors, *cors, same-origin
+        })
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result);
+            },
+                (error) => {
+                    console.log(error);
+                }
+            )
+    });
+
+    return (
+        <div>
+            <h1>Trigger Beacons Takeover off</h1>
+        </div>
     )
 }

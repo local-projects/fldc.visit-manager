@@ -76,6 +76,14 @@ namespace FLDCVisitManager.Controllers
             await HubContext.Clients.All.SendAsync("beaconsTakeOver", "Beacons just got triggered ");
         }
 
+
+        [Route("beaconsTakeOveroff")]
+        [HttpPost]
+        public async void BeaconsTakeOverOff()
+        {
+            await HubContext.Clients.All.SendAsync("beaconsTakeOveroff", "Beacons just got triggered to turn off");
+        }
+
         [Route("cpLampConnected")]
         [HttpGet]
         public IActionResult CPLampConnectedValidate()
@@ -109,7 +117,7 @@ namespace FLDCVisitManager.Controllers
         [Route("fwUpdate")]
         public IActionResult GetFirmwareFtpDetails()
         {
-            var result = _businessLogic.GetFirmwareFtpDetails(); 
+            var result = _businessLogic.GetFirmwareFtpDetails();
             return new JsonResult(result);
         }
 

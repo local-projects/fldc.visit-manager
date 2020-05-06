@@ -24,6 +24,7 @@ const SignalRClient: React.FC = () => {
         const [clientMessage, setClientMessage] = useState<string | null>(null);
         const [cpLampMessage, setcpLampMessage] = useState<string | null>(null);
         const [beaconsTakeoverMessage, setbeaconsTakeoverMessage] = useState<string | null>(null);
+        const [beaconsTakeoverMessageOff, setbeaconsTakeoverMessageOff] = useState<string | null>(null);
 
         useEffect(() => {
             hubConnection.on("setClientMessage", message => {
@@ -49,9 +50,16 @@ const SignalRClient: React.FC = () => {
             });
         });
 
+        useEffect(() => {
+            hubConnection.on("beaconsTakeOverOff", message => {
+                setbeaconsTakeoverMessageOff(message);
+            });
+        });
+
         return <div><p>{clientMessage}</p>
             {!!beaconsTakeoverMessage ? (<h1>{beaconsTakeoverMessage}</h1>) : null}
             {!!cpLampMessage ? (<h1>{cpLampMessage}</h1>) : null}
+            {!!beaconsTakeoverMessageOff ? (<h1>{beaconsTakeoverMessageOff}</h1>) : null}
             </div>
     };
 

@@ -36,6 +36,23 @@ namespace FLDCVisitManager.CMSDataLayar.DTO
         public References CollectionAssets { get; set; }
         public LedColorsSeq TriggerLedColorsSeq { get; set; }
         public LedColorsSeq SleepLedColorsSeq { get; set; }
+        [JsonProperty("CollectionPointType")]
+        public CollectionPointType CollectionPointType { get; set; }
+
+        [JsonProperty("CollectionPointMappingId")]
+        public CollectionPointMappingId CollectionPointMappingId { get; set; }
+    }
+
+    public partial class CollectionPointMappingId
+    {
+        [JsonProperty("iv")]
+        public long Iv { get; set; }
+    }
+
+    public partial class CollectionPointType
+    {
+        [JsonProperty("iv")]
+        public string Iv { get; set; }
     }
 
     public partial class CpIp

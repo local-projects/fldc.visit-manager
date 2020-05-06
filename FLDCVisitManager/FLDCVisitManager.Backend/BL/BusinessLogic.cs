@@ -149,7 +149,8 @@ namespace FLDCVisitManagerBackend.BL
                 };
                 _dBManager.UpdateCollectionPointLampInteraction(cpLampDetails);
                 var cpRequest = Mapper.Map<CPRequestParams>(cpDetails);
-                response = await SetLEDColors(cpRequest);
+                //response = 
+                SetLEDColors(cpRequest); //.ContinueWith(x => Task.FromResult(x.Result), TaskContinuationOptions.OnlyOnFaulted);
             }
             return response;
         }
