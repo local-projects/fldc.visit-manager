@@ -14,10 +14,15 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId: string, a
     timer: any = null;
 
     componentDidMount() {
-        const url = 'http://fldcapi.localprojects.com/';//'http://192.168.50.186';
+        const url = 'http://fldcapi.localprojects.com';
+        //'http://192.168.50.186';
 
         fetch(url + '/getVersionNumber', {
             method: "Get",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
         }).then(res => res.json()).then(result => {
             this.setState({
                 appVersion: result

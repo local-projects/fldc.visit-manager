@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import SignalRClient from '../components/SignalRClient';
 
 export const TriggerCPLampData: React.FC = () => {
-    var url: string = 'http://192.168.50.186';
+    //var url: string = 'http://192.168.50.186';
+    const url = 'http://fldcapi.localprojects.com';
 
     useEffect(() => {
         fetch(url + '/cpLamp', {
@@ -30,7 +31,8 @@ export const TriggerCPLampData: React.FC = () => {
 }
 
 export const TriggerBeaconsTakeover: React.FC = () => {
-    var url: string = 'http://192.168.50.186';
+    //var url: string = 'http://192.168.50.186';
+    const url = 'http://fldcapi.localprojects.com';
     useEffect(() => {
         fetch(url + '/beaconsTakeOver', {
             method: "POST",

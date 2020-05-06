@@ -37,6 +37,12 @@ const SignalRClient: React.FC = () => {
             });
         });
 
+/*        useEffect(() => {
+            hubConnection.on("cpLamp", (res : any) => {
+                setcpLampMessage(message);
+            });
+        });*/
+
         useEffect(() => {
             hubConnection.on("beaconsTakeOver", message => {
                 setbeaconsTakeoverMessage(message);
