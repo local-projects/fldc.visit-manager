@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using FLDCVisitManagerBackend.Models;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace FLDCVisitManager.Backend.Hubs
             await Clients.All.SendAsync("setClientMessage", "A connection with ID '" + connectionId + "' has just connected");
         }
 
-        public async Task CPCollectedAsset(string beaconID, string lampID, string assetsid)
+        public async Task CPCollectedAsset(BeaconsCPLampIncomingRequest req)
         {
             await Clients.All.SendAsync("CPCollectedAssetSuccess");
         }
