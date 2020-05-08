@@ -57,5 +57,7 @@ FLDCVisitManager.Backend:
 	<li>end points for takeaway tables and unity gallery- collectabile assets for lamp</li>
 	<li>end points for pairing the ticketing system to lamp</li>
 </ul>
-
-The UIManager & CanvasManager handle all elements respective to their branches. ofApp is the parent, controlling both these managers & communicating between them, so the UI can effect Canvas Output. 
+FLDCVisitManager.CMSDataLayar handles all communication with the CMS - squixed CMS. 
+In order to update squidex configurations and credentials see [config file](#config).
+FLDCVisitManager.DataLayer handles all communication with the DB - SQL server.
+In order to update connections string see [config file](#config).
