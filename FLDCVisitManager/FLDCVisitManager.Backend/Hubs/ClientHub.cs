@@ -1,4 +1,5 @@
 ﻿using FLDCVisitManagerBackend.Models;
+using MessagePack;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,22 @@ namespace FLDCVisitManager.Backend.Hubs
             await Clients.All.SendAsync("setClientMessage", "A connection with ID '" + connectionId + "' has just connected");
         }
 
-        public async Task CPCollectedAsset(BeaconsCPLampIncomingRequest req)
+        public async Task CPCollectedAsset(string beaconID, string lampID, string assetsID)
+            //(DataModel req)
         {
-            await Clients.All.SendAsync("CPCollectedAssetSuccess");
+            /*await Clients.All.SendAsync("CPCollectedAssetRecived", req);
+*/            await Clients.All.SendAsync("CPCollectedAssetSuccess");
         }
+
+/*        [MessagePackObject]
+        public class DataModel
+        {
+            [Key("beaconId")]
+            int BeaconID { get; set; }
+            [Key("lampId")]
+            int LampID { get; set; }
+            [Key("assetsId")]
+            int AssetsID { get; set; }
+        }*/
     }
 }
