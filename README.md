@@ -16,17 +16,11 @@ Front end react applications for FLDC admins includes:
 	- [Table of Contents](#toc)
 	- [Specs](#specs)
 - [Structure](#structure)
-	- [ofApp](#ofapp)
-	- [Drawing](#drawing)
-		- [Canvas Manager](#canvas)
-		- [Stroke](#stroke)
-		- [Brush::Stroke](#brush)
-	- [UI](#ui)
-		- [Info / Copy](#info)
-		- [Hand Animation](#hand)
-		- [Buttons](#button)
-	- [Utils](#utils)
+	- [FLDCVisitManager.Backend](#FLDCVisitManager.Backend)
+	- [FLDCVisitManager.CMSDataLayar](#FLDCVisitManager.CMSDataLayar)
+	- [FLDCVisitManager.DataLayer](#FLDCVisitManager.DataLayer)
 - [Config File](#config)
+- [Build steps](#build)
 
 <a name="specs"></a>
 # specs
@@ -51,13 +45,35 @@ npm add ons:
 # structure
 
 The App is divided to 4 small projects.
+<a name="FLDCVisitManager.Backend"></a>
 FLDCVisitManager.Backend:
 <ul>
 	<li>handels all end points for the collectoion point communication</li>
 	<li>end points for takeaway tables and unity gallery- collectabile assets for lamp</li>
 	<li>end points for pairing the ticketing system to lamp</li>
 </ul>
+<a name="FLDCVisitManager.CMSDataLayar"></a>
 FLDCVisitManager.CMSDataLayar handles all communication with the CMS - squixed CMS. 
 In order to update squidex configurations and credentials see [config file](#config).
+<a name="FLDCVisitManager.DataLayer"></a>
 FLDCVisitManager.DataLayer handles all communication with the DB - SQL server.
 In order to update connections string see [config file](#config).
+
+<a name="config"></a>
+## Config File
+
+- **File type :** json
+- **Location :** ~\FLDCVisitManager.Backend\appsettings.json
+- **Function :** Configures all third parties and their relating credentials. (squidex and SQL DB)
+
+<a name="build"></a>
+## Build steps
+<ul>
+	<li>Make sure .net core framework 3.1</li>
+	<li>Restore nuget packages</li>
+	<li>Open cmd: <br/>
+		1. cd FLDCVisitManager.Backend\backendclient <br/>
+		2. npm i <br/>
+	</li>
+	<li>Run project</li>
+</ul>
