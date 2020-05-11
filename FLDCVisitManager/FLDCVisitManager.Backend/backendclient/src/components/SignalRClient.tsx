@@ -25,6 +25,7 @@ const SignalRClient: React.FC = () => {
         const [cpLampMessage, setcpLampMessage] = useState<string | null>(null);
         const [beaconsTakeoverMessage, setbeaconsTakeoverMessage] = useState<string | null>(null);
         const [beaconsTakeoverMessageOff, setbeaconsTakeoverMessageOff] = useState<string | null>(null);
+        const [cpCollectedAssetRecivedMessage, cpCollectedAssetRecived] = useState<any | null>(null);
 
         useEffect(() => {
             hubConnection.on("setClientMessage", message => {
@@ -35,6 +36,15 @@ const SignalRClient: React.FC = () => {
         useEffect(() => {
             hubConnection.on("cpLampMessage", message => {
                 setcpLampMessage(message);
+                const req: DataModel = {
+                    beaconId: 1,
+                    lampId: 2,
+                    assetsId: 3
+                };
+                console.log(req);
+                hubConnection.invoke("CPCollectedAsset", req).catch(function (err) {
+                    return console.error(err.toString());
+                });
             });
         });
 
@@ -46,7 +56,7 @@ const SignalRClient: React.FC = () => {
 
         useEffect(() => {
             hubConnection.on("beaconsTakeOver", message => {
-                setbeaconsTakeoverMessage(message);
+                cpCollectedAssetRecived(message);
             });
         });
 
@@ -56,10 +66,23 @@ const SignalRClient: React.FC = () => {
             });
         });
 
+        useEffect(() => {
+            hubConnection.on("CPCollectedAssetRecived", message => {
+                cpCollectedAssetRecived(message);
+            });
+        })
+
+        useEffect(() => {
+            hubConnection.on("CPCollectedAssetSuccess", message => {
+                return <h1>success</h1>;
+            });
+        })
+        
         return <div><p>{clientMessage}</p>
             {!!beaconsTakeoverMessage ? (<h1>{beaconsTakeoverMessage}</h1>) : null}
             {!!cpLampMessage ? (<h1>{cpLampMessage}</h1>) : null}
             {!!beaconsTakeoverMessageOff ? (<h1>{beaconsTakeoverMessageOff}</h1>) : null}
+            {!!cpCollectedAssetRecivedMessage ? (<h1>{cpCollectedAssetRecivedMessage.AssetsID}</h1>) : null}
             </div>
     };
 
@@ -68,3 +91,9 @@ const SignalRClient: React.FC = () => {
 };
 
 export default SignalRClient;
+
+export interface DataModel {
+    beaconId: number,
+    lampId: number,
+    assetsId: number
+}
