@@ -26,7 +26,7 @@ export const TriggerCPLampData: React.FC = () => {
     });
 
     return (
-        <div></div>
+        <div id="triggerCPLampData"></div>
     )
 }
 

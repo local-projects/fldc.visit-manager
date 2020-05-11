@@ -36,13 +36,13 @@ const SignalRClient: React.FC = () => {
         useEffect(() => {
             hubConnection.on("cpLampMessage", message => {
                 setcpLampMessage(message);
-                const req: DataModel = {
-                    beaconId: 1,
-                    lampId: 2,
-                    assetsId: 3
+                const data: CPCollectedAsset = {
+                    beaconId: "1a",
+                    lampId: "2b",
+                    assetsId: "3c"
                 };
-                console.log(req);
-                hubConnection.invoke("CPCollectedAsset", req).catch(function (err) {
+                console.log(data);
+                hubConnection.invoke("CPCollectedAsset", data).catch(function (err) {
                     return console.error(err.toString());
                 });
             });
@@ -73,8 +73,11 @@ const SignalRClient: React.FC = () => {
         })
 
         useEffect(() => {
-            hubConnection.on("CPCollectedAssetSuccess", message => {
-                return <h1>success</h1>;
+            hubConnection.on("CPCollectedAssetSuccess", () => {
+                var elm = document.createElement('h1');
+                elm.textContent = 'get asset success';
+                const myElement = document.getElementById('triggerCPLampData')!;
+                myElement.appendChild(elm);
             });
         })
         
@@ -92,8 +95,8 @@ const SignalRClient: React.FC = () => {
 
 export default SignalRClient;
 
-export interface DataModel {
-    beaconId: number,
-    lampId: number,
-    assetsId: number
+export interface CPCollectedAsset {
+    beaconId: string,
+    lampId: string,
+    assetsId: string
 }

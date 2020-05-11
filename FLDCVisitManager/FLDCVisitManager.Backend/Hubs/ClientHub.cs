@@ -20,22 +20,10 @@ namespace FLDCVisitManager.Backend.Hubs
             await Clients.All.SendAsync("setClientMessage", "A connection with ID '" + connectionId + "' has just connected");
         }
 
-        public async Task CPCollectedAsset(string beaconID, string lampID, string assetsID)
-            //(DataModel req)
+        public async Task CPCollectedAsset(BeaconsCPLampIncomingRequest data)//(string beaconID, string lampID, string assetsID)
         {
-            /*await Clients.All.SendAsync("CPCollectedAssetRecived", req);
-*/            await Clients.All.SendAsync("CPCollectedAssetSuccess");
+            await Clients.All.SendAsync("CPCollectedAssetRecived", data);
+            await Clients.All.SendAsync("CPCollectedAssetSuccess");
         }
-
-/*        [MessagePackObject]
-        public class DataModel
-        {
-            [Key("beaconId")]
-            int BeaconID { get; set; }
-            [Key("lampId")]
-            int LampID { get; set; }
-            [Key("assetsId")]
-            int AssetsID { get; set; }
-        }*/
     }
 }

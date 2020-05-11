@@ -15,11 +15,11 @@ namespace FLDCVisitManagerBackend.Models
     [MessagePackObject]
     public class BeaconsCPLampIncomingRequest
     {
-        [Key("beaconID")]
-        string beaconID { get; set; }
-        [Key("lampID")]
-        string lampID { get; set; }
-        [Key("assetsID")]
-        string assetsID { get; set; }
+        [Key("beaconId")]
+        public string BeaconId {get; set;}
+        [Key("lampId")]
+        public string LampId { get; set; }
+        [Key("assetsId")]
+        public string AssetsId { get; set; }
     }
 }
