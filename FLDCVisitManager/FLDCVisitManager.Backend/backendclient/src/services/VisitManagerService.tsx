@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import SignalRClient from '../components/SignalRClient';
 
-//const url = 'http://fldcapi.localprojects.com';
-var url: string = 'http://192.168.50.186';
+const url = 'http://fldcapi.localprojects.com';
+//var url: string = 'http://192.168.50.186';
 
 export const TriggerCPLampData: React.FC = () => {
 

@@ -85,7 +85,7 @@ const SignalRClient: React.FC = () => {
             {!!beaconsTakeoverMessage ? (<h1>{beaconsTakeoverMessage}</h1>) : null}
             {!!cpLampMessage ? (<h1>{cpLampMessage}</h1>) : null}
             {!!beaconsTakeoverMessageOff ? (<h1>{beaconsTakeoverMessageOff}</h1>) : null}
-            {!!cpCollectedAssetRecivedMessage ? (<h1>{cpCollectedAssetRecivedMessage.AssetsID}</h1>) : null}
+            {!!cpCollectedAssetRecivedMessage ? (<h1>{cpCollectedAssetRecivedMessage.assetsId}</h1>) : null}
             </div>
     };
 
