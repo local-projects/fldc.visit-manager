@@ -91,6 +91,7 @@ namespace FLDCVisitManager.Controllers
             return new JsonResult(_businessLogic.CPLampConnectedValidate());
         }
 
+        [HttpPost]
         [Route("cd_lamp")]
         public IActionResult ChargerDockerLamp(ChargerDockerLampIncomingRequest cdLampReq)
         {
@@ -114,6 +115,7 @@ namespace FLDCVisitManager.Controllers
             return Ok(response.Message);
         }
 
+        [HttpGet]
         [Route("fwUpdate")]
         public IActionResult GetFirmwareFtpDetails()
         {

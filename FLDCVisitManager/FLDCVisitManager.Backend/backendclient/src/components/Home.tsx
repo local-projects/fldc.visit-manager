@@ -14,8 +14,8 @@ class Home extends React.Component<{}, { cpTriggered: boolean, lampId: string, a
     timer: any = null;
 
     componentDidMount() {
-        const url = 'http://fldcapi.localprojects.com';
-        //'http://192.168.50.186';
+        const url = //'http://fldcapi.localprojects.com';
+        'http://192.168.1.183';
 
         fetch(url + '/getVersionNumber', {
             method: "Get",
